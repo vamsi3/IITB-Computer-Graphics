@@ -2,13 +2,13 @@
 #include "hierarchy_node.hpp"
 
 
-extern GLfloat c_xrot,c_yrot,c_zrot;
+extern GLfloat c_xrot,c_yrot,c_zrot,c_zpos,c_xpos,c_ypos;
 extern bool enable_perspective;
-extern cs475::Model model1, model2, model3;
+extern cs475::Model model1, model2, model3, model4;
 namespace cs475
 {
 
-  int model = 1;
+  int model = 4;
 
   //! Initialize GL State
   void initGL(void)
@@ -49,6 +49,7 @@ namespace cs475
       std::cout<<"Model1 :  0\n";
       std::cout<<"Model2 :  1\n";
       std::cout<<"Model3 :  2\n";
+      std::cout<<"Model4 :  3\n";
       std::cout<<"Enter the Corresponding Number to Select: ";
       int d; std::cin>>d;
 
@@ -163,6 +164,11 @@ namespace cs475
         }
       }
 
+      if(model == 4)
+      {
+        model4.curr_node->dec_ry();
+      }
+
     }
     else if (key == GLFW_KEY_H && action == GLFW_PRESS)
     {
@@ -188,6 +194,11 @@ namespace cs475
         {
           model3.curr_node->inc_ry();   
         }
+      }
+
+      if(model == 4)
+      {
+        model4.curr_node->inc_ry();
       }
 
     }
@@ -306,7 +317,21 @@ namespace cs475
     else if (key == GLFW_KEY_Q  && action == GLFW_PRESS)
       c_zrot -= 15.0;
     else if (key == GLFW_KEY_E  && action == GLFW_PRESS)
-      c_zrot += 15.0;   
+      c_zrot += 15.0;
+
+
+    else if (key == GLFW_KEY_J  && action == GLFW_PRESS)
+      c_xpos -= 1.0;
+    else if (key == GLFW_KEY_L  && action == GLFW_PRESS)
+      c_xpos += 1.0;
+    else if (key == GLFW_KEY_I  && action == GLFW_PRESS)
+      c_zpos -= 1.0;
+    else if (key == GLFW_KEY_K  && action == GLFW_PRESS)
+      c_zpos += 1.0;        
+    else if (key == GLFW_KEY_U  && action == GLFW_PRESS)
+      c_ypos -= 1.0;
+    else if (key == GLFW_KEY_O  && action == GLFW_PRESS)
+      c_ypos += 1.0;   
   }
 };  
   

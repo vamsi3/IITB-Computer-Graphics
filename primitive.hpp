@@ -2,7 +2,7 @@
 #define _PRIMITIVE_HPP_
 
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h> 
 
 #include <vector>
 #include "glm/vec3.hpp"

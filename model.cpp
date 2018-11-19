@@ -56,6 +56,7 @@ void initBuffersGL(void)
   
   //tnode->change_parameters(0.0,0.0,0.0,180,0.0,0.0);
 
+  /*
   double s=1.8;
 
 
@@ -432,7 +433,90 @@ void initBuffersGL(void)
 
   model3.curr_node = model3.nodes[0];
   model3.limb = 0;
+  */
 
+  double s4 = 1;
+  cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
+  cs475::HNode* tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(0,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+  
+
+  cuboid->set(-5.2*s4, 5.2*s4, -4.2*s4, 4.2*s4, -0.1*s4, 0.1*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(0,0,-5.1*s4,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(0,-4.1*s4,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(0,4.1*s4,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(-5.1*s4,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-5.2*s4, 5.2*s4, -1.6*s4, 1.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(0,2.6*s4,5.1*s4,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(3.6*s4,-1.6*s4,5.1*s4,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(-3.6*s4,-1.6*s4,5.1*s4,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(v_positions, v_colors, 1);
+  tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(-1.6*s4,-2.4*s4,0.1*s4,0,180,0);
+  (model4.nodes).push_back(tnode);
+
+  cuboid->set(-0.1*s4, 0.1*s4,1.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(5.1*s4,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, -1.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(5.1*s4,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,-5.0*s4, -1.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(5.1*s4,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+  
+  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,1.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(5.1*s4,0,0,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+
+  cuboid->set(0.2*s4, 0,2.0*s4,0,2.0*s4, 0)->setColor(1.0,1.0,1,1)->load(v_positions, v_colors, 0);
+  tnode = new cs475::HNode(model4.nodes[12],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
+  (model4.nodes).push_back(tnode);
+
+  model4.curr_node = model4.nodes[13];
+  model4.limb = 0;
 
 }
 
@@ -454,8 +538,8 @@ void renderGL(void)
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-20.0, 20.0, -20.0, 20.0, 1.0, 30.0);
-    //projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.1,5.0);
+    projection_matrix = glm::frustum(-10.0, 10.0, -10.0, 10.0, 5.0, 40.0);
+    //projection_matrix = glm::perspective(glm::radians(103.0),2.0,20.0,5.0);
   else
     projection_matrix = glm::ortho(-20.0, 20.0, -20.0, 20.0, -20.0, 20.0);
 
@@ -463,9 +547,10 @@ void renderGL(void)
 
   matrixStack.push_back(view_matrix);
 
-  model1.nodes[0]->render_tree();
-  model2.nodes[0]->render_tree();
-  model3.nodes[0]->render_tree();
+  //model1.nodes[0]->render_tree();
+  //model2.nodes[0]->render_tree();
+  //model3.nodes[0]->render_tree();
+  model4.nodes[0]->render_tree();
 }
 
 int main(int argc, char** argv)
@@ -489,7 +574,7 @@ int main(int argc, char** argv)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
 
   //! Create a windowed mode window and its OpenGL context
-  window = glfwCreateWindow(800, 800, "Assignment-2 Modelling", NULL, NULL);
+  window = glfwCreateWindow(800, 800, "Assignment-3 Animation", NULL, NULL);
   if (!window)
     {
       glfwTerminate();
