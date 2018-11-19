@@ -290,35 +290,36 @@ void initBuffersGL(void)
 
   //---------------------------Model2---------------------------------//
 
-  cuboid->set(0.0, 0.0, -0.0, 0, -0.0, 0.0)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
+  double s2 = 1;
+  cuboid->set(0.0*s2, 0.0*s2, -0.0*s2, 0*s2, -0.0*s2, 0.0*s2)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
   tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,3,0,10,30,0);
+  tnode->change_parameters(0,3*s2,0,10,30,0);
   (model2.nodes).push_back(tnode);
   
 
-  cuboid->set(-6.0, 6.0, -5.0, 5, -0.1, 0.1)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
+  cuboid->set(-6.0*s2, 6.0*s2, -5.0*s2, 5*s2, -0.1*s2, 0.1*s2)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
   tnode = new cs475::HNode(model2.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,10,-6.0,0,0,0);
+  tnode->change_parameters(0,10*s2,-6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
   tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,0,12.0,0,0,0);
+  tnode->change_parameters(0,0,12.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(-0.1, 0.1, -5.0, 5, -5.9, 5.9)->setColor(1,0,1,1)->load(v_positions, v_colors, 0);
+  cuboid->set(-0.1*s2, 0.1*s2, -5.0*s2, 5*s2, -5.9*s2, 5.9*s2)->setColor(1,0,1,1)->load(v_positions, v_colors, 0);
   tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(-5.9,0,6.0,0,0,0);
+  tnode->change_parameters(-5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
   tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(5.9,0,6.0,0,0,0);
+  tnode->change_parameters(5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(-6, 6, -0.1, 0.1, -6.1, 6.1)->setColor(0,1,1,1)->load(v_positions, v_colors, 0);
+  cuboid->set(-6*s2, 6*s2, -0.1*s2, 0.1*s2, -6.1*s2, 6.1*s2)->setColor(0,1,1,1)->load(v_positions, v_colors, 0);
   tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,-5.1,6.0,0,0,0);
+  tnode->change_parameters(0,-5.1*s2,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(12, 0, 0.2, 0, 12.2, 0)->setColor(0,1,1,1)->load(v_positions, v_colors, 1);
+  cuboid->set(12*s2, 0, 0.2*s2, 0, 12.2*s2, 0)->setColor(0,1,1,1)->load(v_positions, v_colors, 1);
   tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(-6,5,-0.1,0,0,0);
+  tnode->change_parameters(-6*s2,5*s2,-0.1*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
 
