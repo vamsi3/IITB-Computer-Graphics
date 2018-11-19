@@ -124,7 +124,7 @@ namespace cs475 {
 		return this;
 	}
 
-	Cuboid* Cuboid::load(glm::vec4* positions, glm::vec4* colors, int t) {
+	Cuboid* Cuboid::load(glm::vec4* positions, glm::vec4* colors, glm::vec3* normals, glm::vec3* texCoord, int use, int t) {
 
 		if(t == 0)
 		{
@@ -138,12 +138,12 @@ namespace cs475 {
 			glm::vec4 v7(beta_x, alpha_y, alpha_z, 1.0);
 
 			Quad* quad = new Quad(); quad->setColor(this->color);
-			quad->set(v1, v0, v3, v2)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v2, v3, v7, v6)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v3, v0, v4, v7)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v6, v5, v1, v2)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v4, v5, v6, v7)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v5, v4, v0, v1)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
+			quad->set(v1, v0, v3, v2)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v2, v3, v7, v6)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v3, v0, v4, v7)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v6, v5, v1, v2)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v4, v5, v6, v7)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v5, v4, v0, v1)->load(positions, colors, normals, texCoord, num_vertices, use); this->num_vertices += quad->getVertexCount();
 
 		}
 	   	else
@@ -158,12 +158,12 @@ namespace cs475 {
 			glm::vec4 v7(0, alpha_y, alpha_z, 1.0);
 
 			Quad* quad = new Quad(); quad->setColor(this->color);
-			quad->set(v1, v0, v3, v2)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v2, v3, v7, v6)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v3, v0, v4, v7)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v6, v5, v1, v2)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v4, v5, v6, v7)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v5, v4, v0, v1)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
+			quad->set(v1, v0, v3, v2)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v2, v3, v7, v6)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v3, v0, v4, v7)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v6, v5, v1, v2)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v4, v5, v6, v7)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
+			quad->set(v5, v4, v0, v1)->load(positions, colors, normals, texCoord,num_vertices, use); this->num_vertices += quad->getVertexCount();
 
 	   	}
 
@@ -173,7 +173,7 @@ namespace cs475 {
 
 	// Trapezoid
 
-	Trapezoid* Trapezoid::set(double alpha_x, double beta_x, double alpha_y, double beta_y, double alpha_z, double beta_z) {
+	/*Trapezoid* Trapezoid::set(double alpha_x, double beta_x, double alpha_y, double beta_y, double alpha_z, double beta_z) {
 		this->num_vertices = 0;
 		this->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 		this->alpha_x = alpha_x;
@@ -197,19 +197,19 @@ namespace cs475 {
 		glm::vec4 v7(beta_x, -beta_y, beta_z, 1.0);
 
 		Quad* quad = new Quad(); quad->setColor(this->color);
-		quad->set(v0, v4, v7, v3)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-		quad->set(v1, v5, v4, v0)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-		quad->set(v2, v6, v5, v1)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-		quad->set(v3, v7, v6, v2)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
+		quad->set(v0, v4, v7, v3)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
+		quad->set(v1, v5, v4, v0)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
+		quad->set(v2, v6, v5, v1)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
+		quad->set(v3, v7, v6, v2)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
 
 		if (t == 1) {
-			quad->set(v0, v1, v2, v3)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
-			quad->set(v4, v5, v6, v7)->load(positions, colors, num_vertices); this->num_vertices += quad->getVertexCount();
+			quad->set(v0, v1, v2, v3)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
+			quad->set(v4, v5, v6, v7)->load(positions, colors, normals, texCoord,num_vertices); this->num_vertices += quad->getVertexCount();
 		}
 
 	    
 		return this;
-	}
+	}*/
 
 	// Quad
 
@@ -224,14 +224,28 @@ namespace cs475 {
 		return this;
 	}
 
-	Quad* Quad::load(glm::vec4* positions, glm::vec4* colors, GLuint offset) {
-		positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; this->num_vertices++;
-		positions[num_vertices+offset] = b; colors[num_vertices+offset] = this->color; this->num_vertices++;
-		positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; this->num_vertices++;
-		positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; this->num_vertices++;
-		positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; this->num_vertices++;
-		positions[num_vertices+offset] = d; colors[num_vertices+offset] = this->color; this->num_vertices++;
+	Quad* Quad::load(glm::vec4* positions, glm::vec4* colors, glm::vec3* normals, glm::vec3* texCoord, GLuint offset, int use) {
 
+		if(use == 1)
+		{
+			positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,0.0,0.0); this->num_vertices++;
+			positions[num_vertices+offset] = b; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,0.0,1.0); this->num_vertices++;
+			positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,1.0,1.0); this->num_vertices++;
+			positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,0.0,0.0); this->num_vertices++;
+			positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,1.0,1.0); this->num_vertices++;
+			positions[num_vertices+offset] = d; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(1.0,1.0,0.0); this->num_vertices++;
+
+		}
+		else
+		{
+			positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,0.0,1.0); this->num_vertices++;
+			positions[num_vertices+offset] = b; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,0.0,0.0); this->num_vertices++;
+			positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,1.0,0.0); this->num_vertices++;
+			positions[num_vertices+offset] = a; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,0.0,1.0); this->num_vertices++;
+			positions[num_vertices+offset] = c; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,0.0,0.0); this->num_vertices++;
+			positions[num_vertices+offset] = d; colors[num_vertices+offset] = this->color; texCoord[num_vertices+offset] = glm::vec3(-1.0,1.0,1.0); this->num_vertices++;
+		}
+		
 		return this;
 	}
 

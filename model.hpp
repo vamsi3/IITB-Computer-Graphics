@@ -5,6 +5,7 @@
 #include "shader_util.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
+#include "glm/vec2.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -23,7 +24,7 @@ bool enable_culling=true;
 bool enable_perspective=false;
 
 //Shader program attribs
-GLuint vPosition,vColor;
+GLuint vPosition,vColor,vNormal,texCoord;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;
@@ -41,4 +42,4 @@ cs475::Sphere* sphere = new cs475::Sphere();
 cs475::Cone* cone = new cs475::Cone();
 cs475::Cuboid* cuboid = new cs475::Cuboid();
 cs475::Disc* disc = new cs475::Disc();
-cs475::Trapezoid* trapezoid = new cs475::Trapezoid();
+//cs475::Trapezoid* trapezoid = new cs475::Trapezoid();

@@ -57,18 +57,18 @@ namespace cs475	 {
 
 	public:
 		Cuboid* set(double alpha_x, double beta_x, double alpha_y, double beta_y, double alpha_z, double beta_z);
-		Cuboid* load(glm::vec4* positions, glm::vec4* colors, int t);
+		Cuboid* load(glm::vec4* positions, glm::vec4* colors, glm::vec3* normals, glm::vec3* texCoord, int use, int t);
 		Cuboid*	setColor(double r, double g, double b, double a) { Primitive::setColor(r, g, b, a); return this; }
 	};
 
-	class Trapezoid : public Primitive {
+	/*class Trapezoid : public Primitive {
 		double alpha_x, beta_x, alpha_y, beta_y, alpha_z, beta_z;
 
 	public:
 		Trapezoid* set(double alpha_x, double beta_x, double alpha_y, double beta_y, double alpha_z, double beta_z);
 		Trapezoid* load(glm::vec4* positions, glm::vec4* colors, int t);
 		Trapezoid*	setColor(double r, double g, double b, double a) { Primitive::setColor(r, g, b, a); return this; }
-	};
+	};*/
 
 	// 2D Primitives
 
@@ -77,7 +77,7 @@ namespace cs475	 {
 
 	public:
 		Quad* set(glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 d);
-		Quad* load(glm::vec4* positions, glm::vec4* colors, GLuint offset);
+		Quad* load(glm::vec4* positions, glm::vec4* colors, glm::vec3* normals, glm::vec3* texCoord, GLuint offset, int use);
 		Quad* setColor(glm::vec4 color) { this->color = color; return this; }
 	};
 

@@ -1,4 +1,5 @@
 #include "model.hpp"
+#include "texture.hpp"
 
 GLuint shaderProgram;
 
@@ -21,6 +22,8 @@ GLuint uModelViewMatrix;
 const int num_vertices = 1000000;
 glm::vec4 v_positions[num_vertices];
 glm::vec4 v_colors[num_vertices];
+glm::vec3 v_normals[num_vertices];
+glm::vec3 v_texCoord[num_vertices];
 
 //-----------------------------------------------------------------
 
@@ -42,6 +45,9 @@ void initBuffersGL(void)
   // getting the attributes from the shader program
   vPosition = glGetAttribLocation( shaderProgram, "vPosition" );
   vColor = glGetAttribLocation( shaderProgram, "vColor" ); 
+  vNormal = glGetAttribLocation( shaderProgram, "vNormal" ); 
+  texCoord = glGetAttribLocation( shaderProgram, "texCoord" ); 
+ 
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
 
 
@@ -435,87 +441,90 @@ void initBuffersGL(void)
   model3.limb = 0;
   */
 
+  GLuint wooden = LoadTexture("images/wooden.bmp",512,512);
+  GLuint floor = LoadTexture("images/all1.bmp",256,256);
+  
   double s4 = 1;
-  cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
-  cs475::HNode* tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 0, 0);
+  cs475::HNode* tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(0,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
   
 
-  cuboid->set(-5.2*s4, 5.2*s4, -4.2*s4, 4.2*s4, -0.1*s4, 0.1*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-5.2*s4, 5.2*s4, -4.2*s4, 4.2*s4, -0.1*s4, 0.1*s4)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(0,0,-5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), floor);
   tnode->change_parameters(0,-4.1*s4,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(0,4.1*s4,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(-5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-5.2*s4, 5.2*s4, -1.6*s4, 1.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-5.2*s4, 5.2*s4, -1.6*s4, 1.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(0,2.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(-3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(v_positions, v_colors, 1);
-  tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(v_positions, v_colors,v_normals, v_texCoord, 0, 0);
+  tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(-1.6*s4,-2.4*s4,0.1*s4,0,180,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(-0.1*s4, 0.1*s4,1.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s4, 0.1*s4,1.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, -1.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, -1.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,-5.0*s4, -1.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,-5.0*s4, -1.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
   
-  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,1.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,1.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 1, 0);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(0.2*s4, 0,2.0*s4,0,2.0*s4, 0)->setColor(1.0,1.0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model4.nodes[12],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(0.2*s4, 0,2.0*s4,0,2.0*s4, 0)->setColor(1.0,1.0,1,1)->load(v_positions, v_colors, v_normals, v_texCoord, 0, 0);
+  tnode = new cs475::HNode(model4.nodes[12],cuboid->getVertexCount(),v_positions,v_colors,v_normals,v_texCoord,(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec4),(cuboid->getVertexCount())*sizeof(glm::vec3),(cuboid->getVertexCount())*sizeof(glm::vec3), wooden);
   tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  model4.curr_node = model4.nodes[13];
+  model4.curr_node = model4.nodes[1];
   model4.limb = 0;
 
 }

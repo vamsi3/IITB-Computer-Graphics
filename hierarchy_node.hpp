@@ -7,6 +7,7 @@
 #include <vector>
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
+#include "glm/vec2.hpp"
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -23,9 +24,12 @@ namespace cs475	 {
 
 		std::size_t vertex_buffer_size;
 		std::size_t color_buffer_size;
+		std::size_t normal_buffer_size;
+		std::size_t tex_buffer_size;
+		std::size_t texUse_buffer_size;
 
 		GLuint num_vertices;
-		GLuint vao,vbo;
+		GLuint vao,vbo,tex;
 
 		glm::mat4 rotation;
 		glm::mat4 translation;
@@ -36,7 +40,7 @@ namespace cs475	 {
 		void update_matrices();
 
 	  public:
-		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, std::size_t, std::size_t);
+		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec3*, glm::vec3*, std::size_t, std::size_t, std::size_t, std::size_t, GLuint);
 		
 		void add_child(HNode*);
 		void render();
