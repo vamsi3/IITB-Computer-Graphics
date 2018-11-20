@@ -13,15 +13,27 @@
 #include "primitive.hpp"
 
 // Camera position and rotation Parameters
-GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 6.0;
+GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 20.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
+
+int mode = 1;
+//1--choose points
+//2--animate camera
+
+
+
+
+std::vector<glm::vec3> camera_points,camera_movement;
+
+int campoint = 0;
+
 
 //Running variable to toggle culling on/off
 bool enable_culling=true;
 
 //Enable/Disable perspective view
-bool enable_perspective=false;
+bool enable_perspective=true;
 
 //Shader program attribs
 GLuint vPosition,vColor,vNormal,texCoord;
@@ -43,3 +55,13 @@ cs475::Cone* cone = new cs475::Cone();
 cs475::Cuboid* cuboid = new cs475::Cuboid();
 cs475::Disc* disc = new cs475::Disc();
 //cs475::Trapezoid* trapezoid = new cs475::Trapezoid();
+
+
+glm::mat4 rotation_matrix;
+glm::mat4 projection_matrix;
+glm::mat4 c_rotation_matrix;
+glm::mat4 lookat_matrix;
+
+glm::mat4 model_matrix;
+glm::mat4 view_matrix;
+glm::mat4 modelview_matrix;

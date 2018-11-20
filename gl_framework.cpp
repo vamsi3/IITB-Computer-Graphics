@@ -5,6 +5,74 @@
 extern GLfloat c_xrot,c_yrot,c_zrot,c_zpos,c_xpos,c_ypos;
 extern bool enable_perspective;
 extern cs475::Model model1, model2, model3, model4;
+extern glm::mat4 view_matrix, modelview_matrix;
+extern GLfloat c_zpos;
+extern std::vector<glm::vec3> camera_points;
+extern std::vector<glm::vec3> camera_movement;
+extern int mode;
+
+
+
+
+
+int factorial(int n)
+{
+  if(n==0) return 1;
+
+  int ret = 1;
+    for(int i = 1;i<=n;i++)
+    {
+      ret *= i;
+    }
+
+    return ret;
+}
+
+float binomial_coff(float n,float k)
+{
+    float ans;
+    ans = factorial(n) / (factorial(k)*factorial(n-k));
+    return ans;
+}
+
+
+glm::vec3 drawBezierPoint(std::vector<glm::vec3> &points, double t)
+{
+  glm::vec3 P = glm::vec3(0.0);
+    
+    size_t num_points = points.size();
+    for (int i = 0; i<num_points; i++)
+    {
+        P.x = P.x + binomial_coff((float)(num_points - 1), (float)i) * pow(t, (double)i) * pow((1 - t), (num_points - 1 - i)) * points[i].x;
+        P.y = P.y + binomial_coff((float)(num_points - 1), (float)i) * pow(t, (double)i) * pow((1 - t), (num_points - 1 - i)) * points[i].y;
+        P.z = P.z + binomial_coff((float)(num_points - 1), (float)i) * pow(t, (double)i) * pow((1 - t), (num_points - 1 - i)) * points[i].z;
+    }
+    
+    return P;
+}
+
+
+void drawBezier(std::vector<glm::vec3> &points, double delta_t)
+{
+  for(double t = 0.0;t <= 1.0; t += delta_t)
+    {
+        glm::vec3 p = drawBezierPoint(points,t);
+        camera_movement.push_back(p);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 namespace cs475
 {
 
@@ -32,10 +100,52 @@ namespace cs475
   //!GLFW framebuffer resize callback
   void framebuffer_size_callback(GLFWwindow* window, int width, int height)
   {
-    //!Resize the viewport to fit the window size - draw to entire window
+    //!Resize the viewPort to fit the window size - draw to entire window
     glViewport(0, 0, width, height);
   }
   
+
+  void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+  {
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+    if(button == GLFW_MOUSE_BUTTON_LEFT and action == GLFW_PRESS)
+    {
+      GLint viewPort[4];
+
+      glGetIntegerv(GL_VIEWPORT, viewPort);
+
+      ypos = viewPort[1]+viewPort[3]-ypos;
+
+      glm::mat4 inv_matrix = glm::inverse(view_matrix*modelview_matrix);
+
+      double xpos1 = (xpos-(GLdouble)viewPort[0])/(GLdouble)viewPort[2]*2.0-1.0;
+      double ypos1 = (ypos-(GLdouble)viewPort[1])/(GLdouble)viewPort[3]*2.0-1.0;
+      
+      glm::vec4 pos1 = glm::vec4(xpos1,ypos1,1.0,1.0); 
+
+      glm::vec4 outpos1 = inv_matrix * pos1;
+
+      pos1.z = -1;
+
+      glm::vec4 outpos2 = inv_matrix * pos1;
+
+      for(int j=0;j<3;j++)
+      {
+        outpos1[j] /= outpos1[3];
+        outpos2[j] /= outpos2[3];
+      }
+
+      double t = (outpos1[2] - 6) / (outpos1[2] - outpos2[2]);
+      GLfloat fx = outpos1[0] + (outpos2[0] - outpos1[0]) * t;
+      GLfloat fy = outpos1[1] + (outpos2[1] - outpos1[1]) * t;
+
+      glm::vec3 newpos = glm::vec3(fx,fy,c_zpos);
+      camera_points.push_back(newpos);
+    }
+  }
+
+
   //!GLFW keyboard callback
   void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
@@ -43,6 +153,11 @@ namespace cs475
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 
+    else if (key == GLFW_KEY_V && action == GLFW_PRESS)
+    {
+      mode = 2;
+      drawBezier(camera_points,0.02);
+    }
     else if (key == GLFW_KEY_M && action == GLFW_PRESS)
     {
       std::cout<<"\n\n";

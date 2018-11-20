@@ -3,16 +3,6 @@
 
 GLuint shaderProgram;
 
-glm::mat4 rotation_matrix;
-glm::mat4 projection_matrix;
-glm::mat4 c_rotation_matrix;
-glm::mat4 lookat_matrix;
-
-glm::mat4 model_matrix;
-glm::mat4 view_matrix;
-
-
-glm::mat4 modelview_matrix;
 
 GLuint uModelViewMatrix;
 
@@ -543,12 +533,22 @@ void renderGL(void)
   glm::vec4 c_pos = glm::vec4(c_xpos,c_ypos,c_zpos, 1.0)*c_rotation_matrix;
   glm::vec4 c_up = glm::vec4(c_up_x,c_up_y,c_up_z, 1.0)*c_rotation_matrix;
   //Creating the lookat matrix
-  lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(0.0),glm::vec3(c_up));
+
+  if(mode == 1)
+  {
+    glm::vec4 ccpos = glm::vec4(c_xpos,c_ypos,0, 1.0)*c_rotation_matrix;
+    lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(ccpos),glm::vec3(c_up));
+  }
+  else
+  {
+    lookat_matrix = glm::lookAt(glm::vec3(c_pos),glm::vec3(0.0),glm::vec3(c_up));  
+  }
+  
 
   //creating the projection matrix
   if(enable_perspective)
-    projection_matrix = glm::frustum(-10.0, 10.0, -10.0, 10.0, 5.0, 40.0);
-    //projection_matrix = glm::perspective(glm::radians(103.0),2.0,20.0,5.0);
+    //projection_matrix = glm::frustum(-10.0, 10.0, -10.0, 10.0, 5.0, 40.0);
+    projection_matrix = glm::perspective(glm::radians(90.0),1.0,0.001,1000.0);
   else
     projection_matrix = glm::ortho(-20.0, 20.0, -20.0, 20.0, -20.0, 20.0);
 
@@ -611,6 +611,10 @@ int main(int argc, char** argv)
 
   //Keyboard Callback
   glfwSetKeyCallback(window, cs475::key_callback);
+
+  //Mouse Callback
+  glfwSetMouseButtonCallback(window, cs475::mouse_button_callback);
+
   //Framebuffer resize callback
   glfwSetFramebufferSizeCallback(window, cs475::framebuffer_size_callback);
 
@@ -621,13 +625,47 @@ int main(int argc, char** argv)
   cs475::initGL();
   initBuffersGL();
 
+  camera_points.push_back(glm::vec3(c_xpos,c_ypos,c_zpos));
+  float time = 0.1f;
+
+  float previous = -1;
+
   // Loop until the user closes the window
   while (glfwWindowShouldClose(window) == 0)
     {
-       
+      if(mode == 2)
+      {
+        if(previous < 0) previous = glfwGetTime();
+        float now = glfwGetTime();
+        //std::cout<<now<<std::endl;
+        float delta = now - previous;
+        previous = now;
+
+        //std::cout<<camera_points.size()<<std::endl; 
+
+        time -= delta;
+        if (time <= 0.0)
+        {
+            c_xpos = camera_movement[campoint][0];
+            c_ypos = camera_movement[campoint][1];
+            c_zpos = camera_movement[campoint][2];
+            time = 0.1;
+            campoint++;
+            
+
+            if(campoint == camera_movement.size())
+            {
+              mode = 3;
+            }
+        }
+  
+      }
+      
       // Render here
       renderGL();
 
+
+      
       // Swap front and back buffers
       glfwSwapBuffers(window);
       
