@@ -38,12 +38,26 @@ void dumpFrame() {
   frame_records.open("keyframes.txt", std::ios::app);
   frame_records << itos(light1) + itos(light2);
 
+  for(auto k: model1.nodes) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+for(auto k: model2.nodes) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+
+  for(auto k: model3.nodes) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+
+
   for(auto k: model4.nodes) {
     frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
   }
   
   frame_records << itos(c_xpos) + itos(c_ypos) + itos(c_zpos) + itos(c_xrot) + itos(c_yrot) + itos(c_zrot);
-
+  
   frame_records << "\n";
 
   frame_records.close();
@@ -113,7 +127,7 @@ void applyFrame(int kf_num) {
   light1 = frame[j++] > 0.0 ? 1 : -1;
   light2 = frame[j++] > 0.0 ? 1 : -1;
   
-  for(auto k: model4.nodes) {
+  for(auto k: model1.nodes) {
     k->tx = frame[j++];
     k->ty = frame[j++];
     k->tz = frame[j++];
@@ -123,6 +137,38 @@ void applyFrame(int kf_num) {
     k->update_matrices();
   }
 
+for(auto k: model2.nodes) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+
+
+  for(auto k: model3.nodes) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+
+  for(auto k: model4.nodes) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
   
   c_xpos = frame[j++];
   c_ypos = frame[j++];
@@ -183,11 +229,16 @@ void initBuffersGL(void)
   double s2 = 0.6;
   double s3=0.06;
   double s4 = 6;
-  double s5 = 0.05;
-  double s6 = 0.05;
+  double s5 = 1;
+  double s6 = 1;
+  double s7 = 1;
+  double s8 = 1;
+  double s9 = 1;
+  double s10 = 1;
+  double s11 = 1;
 
-  double m2_l = 12*s2, m2_b = 12*s2, m2_h = 12*s2;
-  double m4_l = 10.4*s4, m4_b = 10.4*s4, m4_h = 8.4*s4;
+  double m2_l = 12.4*s2, m2_b = 12*s2, m2_h = 10.4*s2;
+  double m4_l = 10*s4, m4_b = 10*s4, m4_h = 8*s4;
 
 
 
@@ -652,8 +703,8 @@ void initBuffersGL(void)
 
   //-------------------------- Model 5 (TABLE) -------------------------------//
 
-  double m5_0_l = 18, m5_0_b = 15, m5_0_h = 4; // table top
-  double m5_1_l = 1, m5_1_b = 1, m5_1_h = m4_h/2-m5_0_h-m2_h/2; // table legs
+  double m5_0_l = 18*s5, m5_0_b = 15*s5, m5_0_h = 4*s5; // table top
+  double m5_1_l = 1*s5, m5_1_b = 1*s5, m5_1_h = (m4_h/2-m5_0_h-m2_h/2)*s5; // table legs
 
   // table top = 0
   cuboid->set(-m5_0_l/2, m5_0_l/2, -m5_0_h/2, m5_0_h/2, -m5_0_b/2, m5_0_b/2)->setColor(1,0,0,1)->load(0);
@@ -684,8 +735,8 @@ void initBuffersGL(void)
 
   //-------------------------- Model 6 (CHAIR) -------------------------------//
 
-  double m6_0_l = 8, m6_0_b = 8, m6_0_h = 1, m6_0_toff_x = 15, m6_0_toff_z = 0; // chair top
-  double m6_1_l = 0.8, m6_1_b = 0.8, m6_1_h = 8; // chair legs
+  double m6_0_l = 8*s6, m6_0_b = 8*s6, m6_0_h = 1*s6, m6_0_toff_x = 15*s6, m6_0_toff_z = 0*s6; // chair top
+  double m6_1_l = 0.8*s6, m6_1_b = 0.8*s6, m6_1_h = 8*s6; // chair legs
 
   // chair top = 0
   cuboid->set(-m6_0_l/2, m6_0_l/2, -m6_0_h/2, m6_0_h/2, -m6_0_b/2, m6_0_b/2)->setColor(1,1,0,1)->load(0);
@@ -714,6 +765,190 @@ void initBuffersGL(void)
   model6.curr_node = model6.nodes[0];
   model6.limb = 0;
 
+  //-------------------------- Model 7 (LAMP) -------------------------------//
+
+
+  double m7_1_l = 3.5*s7, m7_1_b = 3.5*s7, m7_1_h = 1.8*s7; // lamp base
+  double m7_0_l = 0.8*s7, m7_0_b = 0.8*s7, m7_0_h = 25*s7; // lamp leg
+  double m7_2_l = 7*s7, m7_2_b = 7*s7, m7_2_h = 4*s7; // lamp cover
+
+  // lamp leg = 0
+  cuboid->set(-m7_0_l/2, m7_0_l/2, -m7_0_h/2, m7_0_h/2, -m7_0_b/2, m7_0_b/2)->setColor(1,0,1,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(-m4_l/2+m7_2_l,-m4_h/2+m7_1_h+m7_0_h/2,-m4_b/2+m7_2_b,0,0,0);
+  (model7.nodes).push_back(tnode);
+
+  // lamp base = 1
+  trapezoid->set(m7_0_l/2, m7_1_l/2, m7_0_b/2, m7_1_b/2, -m7_1_h/2, m7_1_h/2)->setColor(0,1,1,1)->load(1);
+  tnode = new cs475::HNode(model7.nodes[0],trapezoid->getVertexCount());
+  tnode->change_parameters(0,-(m7_0_h+m7_1_h)/2,0,90,0,0);
+  (model7.nodes).push_back(tnode);
+
+  // lamp cover = 2
+  trapezoid->set(m7_0_l/2, m7_2_l/2, m7_0_b/2, m7_2_b/2, -m7_2_h/2, m7_2_h/2)->setColor(1,1,0,1)->load(1);
+  tnode = new cs475::HNode(model7.nodes[0],trapezoid->getVertexCount());
+  tnode->change_parameters(0,(m7_0_h+m7_2_h)/2,0,90,0,0);
+  (model7.nodes).push_back(tnode);
+
+  //-------------------------- Model 8 (CHAIR 2) -------------------------------//
+
+  double m8_0_l = 8*s8, m8_0_b = 8*s8, m8_0_h = 1*s8, m8_0_toff_x = 15*s8, m8_0_toff_z = 0*s8; // chair top
+  double m8_1_l = 0.8*s8, m8_1_b = 0.8*s8, m8_1_h = 8*s8; // chair legs
+
+  // chair top = 0
+  cuboid->set(-m8_0_l/2, m8_0_l/2, -m8_0_h/2, m8_0_h/2, -m8_0_b/2, m8_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(-m8_0_toff_x,-m4_h/2+m8_0_h/2+m8_1_h,m8_0_toff_z,0,0,0);
+  (model8.nodes).push_back(tnode);
+
+  // chair legs = 1,2,3,4
+  cuboid->set(-m8_1_l/2, m8_1_l/2, -m8_1_h/2, m8_1_h/2, -m8_1_b/2, m8_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model8.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m8_0_l-m8_1_l)/2,-(m8_0_h+m8_1_h)/2,(m8_0_b-m8_1_b)/2,0,0,0);
+  (model8.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model8.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m8_0_l-m8_1_l)/2,-(m8_0_h+m8_1_h)/2,-(m8_0_b-m8_1_b)/2,0,0,0);
+  (model8.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model8.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m8_0_l-m8_1_l)/2,-(m8_0_h+m8_1_h)/2,-(m8_0_b-m8_1_b)/2,0,0,0);
+  (model8.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model8.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m8_0_l-m8_1_l)/2,-(m8_0_h+m8_1_h)/2,(m8_0_b-m8_1_b)/2,0,0,0);
+  (model8.nodes).push_back(tnode);
+
+  model8.curr_node = model8.nodes[0];
+  model8.limb = 0;
+
+  //-------------------------- Model 9 (CORNER RACK) -------------------------------//
+
+  double m9_0_l = 8*s9, m9_0_b = 8*s9, m9_0_h = 1*s9, m9_0_toff_x = (m4_l-m9_0_l)/2, m9_0_toff_z = -(m4_b-m9_0_b)/2; // rack top
+  double m9_1_l = 0.8*s9, m9_1_b = 0.8*s9, m9_1_h = 8*s9; // rack legs
+
+  // rack top = 0
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(m9_0_toff_x,-m4_h/2+m9_0_h/2+m9_1_h,m9_0_toff_z,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  // rack legs = 1,2,3,4
+  cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  // rack_2 top = 5
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(0,m9_0_h+m9_1_h,0,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  // rack_2 legs = 6,7,8,9
+  cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  // rack_3 top = 10
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode->change_parameters(0,m9_0_h+m9_1_h,0,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  // rack_3 legs = 11,12,13,14
+  cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
+  (model9.nodes).push_back(tnode);
+
+  model9.curr_node = model9.nodes[0];
+  model9.limb = 0;
+
+  //-------------------------- Model 10 (WALL LIGHT) -------------------------------//
+
+  double m10_0_rs = 1*s10, m10_0_rb = 2*s10, m10_0_h = 4*s10, m10_0_goff = 0.75*m4_h;
+  
+  cone->set(m10_0_rs, m10_0_rb, 0, m10_0_h, 0, M_PI, 360)->load();
+  tnode = new cs475::HNode(NULL,cone->getVertexCount());
+  tnode->change_parameters(-m4_l/2,-m4_h/2+m10_0_goff,0,-90,0,-90);
+  (model10.nodes).push_back(tnode);
+  
+  //-------------------------- Model 11 (ROYAL CHAIR) -------------------------------//
+
+  double m11_0_l = 9*s11, m11_0_b = 9*s11, m11_0_h = 1*s11, m11_0_toff_x = -(m4_l-m11_0_l*1.5)/2, m11_0_toff_z = (m4_b-m11_0_b*1.5)/2; // chair top
+  double m11_1_l = 0.9*s11, m11_1_b = 0.9*s11, m11_1_h = 10*s11; // chair legs
+  double m11_2_h = 9*s11;
+
+  // chair top = 0
+  cuboid->set(-m11_0_l/2, m11_0_l/2, -m11_0_h/2, m11_0_h/2, -m11_0_b/2, m11_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(m11_0_toff_x,-m4_h/2+m11_0_h/2+m11_1_h,m11_0_toff_z,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  // chair legs = 1,2,3,4
+  cuboid->set(-m11_1_l/2, m11_1_l/2, -m11_1_h/2, m11_1_h/2, -m11_1_b/2, m11_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,(m11_0_b-m11_1_b)/2,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,-(m11_0_b-m11_1_b)/2,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,-(m11_0_b-m11_1_b)/2,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,(m11_0_b-m11_1_b)/2,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  // chair backrest
+  cuboid->set(-m11_1_l/2, m11_1_l/2, -m11_2_h/2, m11_2_h/2, -m11_0_b/2, m11_0_b/2)->setColor(0.5,0.7,1,1)->load(0);
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m11_0_l-m11_1_l)/2,(m11_0_h+m11_2_h)/2,0,0,0,0);
+  (model11.nodes).push_back(tnode);
+
+  model11.curr_node = model11.nodes[0];
+  model11.limb = 0;
 }
 
 void renderGL(void)
@@ -764,6 +999,11 @@ void renderGL(void)
   model4.nodes[0]->render_tree();
   model5.nodes[0]->render_tree();
   model6.nodes[0]->render_tree();
+  model7.nodes[0]->render_tree();
+  model8.nodes[0]->render_tree();
+  model9.nodes[0]->render_tree();
+  model10.nodes[0]->render_tree();
+  model11.nodes[0]->render_tree();
 }
 
 int main(int argc, char** argv)

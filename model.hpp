@@ -50,6 +50,11 @@ cs475::Model model3;
 cs475::Model model4;
 cs475::Model model5;
 cs475::Model model6;
+cs475::Model model7;
+cs475::Model model8;
+cs475::Model model9;
+cs475::Model model10;
+cs475::Model model11;
 
 cs475::Sphere* sphere = new cs475::Sphere();
 cs475::Cone* cone = new cs475::Cone();
