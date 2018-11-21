@@ -11,7 +11,10 @@ extern std::vector<glm::vec3> camera_points;
 extern std::vector<glm::vec3> camera_movement;
 extern int mode;
 
+extern float light1,light2;
 
+extern void dumpFrame();
+extern void readKeyframes();
 
 
 
@@ -60,17 +63,6 @@ void drawBezier(std::vector<glm::vec3> &points, double delta_t)
         camera_movement.push_back(p);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 namespace cs475
@@ -153,6 +145,26 @@ namespace cs475
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
       glfwSetWindowShouldClose(window, GL_TRUE);
 
+    else if (key == GLFW_KEY_B && action == GLFW_PRESS)
+    {
+      dumpFrame();
+    }
+    else if (key == GLFW_KEY_X && action == GLFW_PRESS)
+    {
+      remove("keyframes.txt");
+    }
+    else if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+      light1 = -light1;
+    }
+    else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+      light2 = -light2;
+    }
+    else if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+      readKeyframes(); 
+    }
     else if (key == GLFW_KEY_V && action == GLFW_PRESS)
     {
       mode = 2;

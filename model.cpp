@@ -4,7 +4,7 @@
 GLuint shaderProgram;
 
 
-GLuint uModelViewMatrix;
+GLuint uModelViewMatrix,uViewMatrix,uNormalMatrix;
 
 
 //-----------------------------------------------------------------
@@ -15,6 +15,135 @@ glm::vec3 v_normals[num_vertices];
 glm::vec2 v_texcord[num_vertices];
 
 //-----------------------------------------------------------------
+
+
+std::string itos(int k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(double k) {
+  return std::to_string(k) + " ";
+}
+
+std::string itos(bool k) {
+  return std::to_string(k) + " ";
+}
+
+double stodb(std::string s) {
+  return std::stod(s);
+}
+
+void dumpFrame() {
+  std::ofstream frame_records;
+  frame_records.open("keyframes.txt", std::ios::app);
+  frame_records << itos(light1) + itos(light2);
+
+  for(auto k: model4.nodes) {
+    frame_records << itos(k->tx) + itos(k->ty) + itos(k->tz) + itos(k->rx) + itos(k->ry) + itos(k->rz);
+  }
+  
+  frame_records << itos(c_xpos) + itos(c_ypos) + itos(c_zpos) + itos(c_xrot) + itos(c_yrot) + itos(c_zrot);
+
+  frame_records << "\n";
+
+  frame_records.close();
+}
+
+std::vector<double> parse_frame(std::string s) {
+  std::vector<double> frame;
+  std::istringstream is(s);
+  std::string part;
+  while(getline(is, part, ' ')) {
+    frame.push_back(stodb(part));
+  }
+  return frame;
+}
+
+std::vector<std::vector<double>> interpolate_two_frames(int t){
+  std::vector<std::vector<double>> i_frames;
+
+  for(int i=0;i<24;i++)
+  {
+    std::vector<double> frame;
+    for(int j=0;j<keyframes[t].size();j++){
+      frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
+    }
+    
+
+    /*for(int j = keyframes[t].size() - 6; j < keyframes[t].size(); j++) {
+
+      double t1 = ((72-(i + k*24))/72.0);
+      double t2 = (i+k*24)/72.0;
+      if(keyframes[t][j] == keyframes[t+1][j] && keyframes[t+1][j] == keyframes[t+2][j] && keyframes[t+2][j] == keyframes[t+3][j])
+        frame.push_back(keyframes[t][j]);
+      else
+      frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
+    }*/
+    i_frames.push_back(frame);
+    frame.clear();
+  }
+  
+  return i_frames;
+}
+
+
+void interpolate_all_frames(){
+  for(int i=0;i<keyframes.size()-1;i++){
+    std::vector<std::vector<double>> frames = interpolate_two_frames(i);
+    allframes.insert(allframes.end(),frames.begin(),frames.end());
+  }
+  allframes.push_back(keyframes[keyframes.size()-1]);
+}
+
+
+
+void readKeyframes() {
+
+  keyframes.clear();
+  std::string frame;
+  std::ifstream frame_records("keyframes.txt");
+  if(frame_records.is_open()) {
+    while(getline(frame_records, frame)) {
+      keyframes.push_back(parse_frame(frame));
+    }
+    frame_records.close();
+    interpolate_all_frames();
+    mode = 3;
+  }
+  else {
+    std::cout << "Unable to open keyframes.txt file";
+  }
+}
+
+
+
+void applyFrame(int kf_num) {
+  std::vector<double> frame = allframes[kf_num];
+  int j = 0;
+  light1 = frame[j++] > 0.0 ? 1 : -1;
+  light2 = frame[j++] > 0.0 ? 1 : -1;
+  
+  for(auto k: model4.nodes) {
+    k->tx = frame[j++];
+    k->ty = frame[j++];
+    k->tz = frame[j++];
+    k->rx = frame[j++];
+    k->ry = frame[j++];
+    k->rz = frame[j++];
+    k->update_matrices();
+  }
+
+  
+  c_xpos = frame[j++];
+  c_ypos = frame[j++];
+  c_zpos = frame[j++];
+  c_xrot = frame[j++];
+  c_yrot = frame[j++];
+  c_zrot = frame[j++];
+}
+
+
+
 
 
 void initBuffersGL(void)
@@ -39,7 +168,14 @@ void initBuffersGL(void)
   vUseTexture = glGetUniformLocation( shaderProgram, "vUseTexture");
  
   uModelViewMatrix = glGetUniformLocation( shaderProgram, "uModelViewMatrix");
+  uNormalMatrix = glGetUniformLocation( shaderProgram, "uNormalMatrix");
+  uViewMatrix = glGetUniformLocation( shaderProgram, "uViewMatrix");
 
+  uLight1 = glGetUniformLocation( shaderProgram, "uLight1");
+  uLight2 = glGetUniformLocation( shaderProgram, "uLight2");
+
+  glUniform1f(uLight1,light1);
+  glUniform1f(uLight2,light2);
 
   //--------------------------Model1-------------------------------//
 
@@ -481,7 +617,7 @@ void initBuffersGL(void)
   tnode->change_parameters(-3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(0);
+  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(1);
   tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),wooden);
   tnode->change_parameters(-1.6*s4,-2.4*s4,0.1*s4,0,180,0);
   (model4.nodes).push_back(tnode);
@@ -514,7 +650,7 @@ void initBuffersGL(void)
   tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  model4.curr_node = model4.nodes[1];
+  model4.curr_node = model4.nodes[8];
   model4.limb = 0;
 
 }
@@ -522,6 +658,9 @@ void initBuffersGL(void)
 void renderGL(void)
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glUniform1f(uLight1,light1);
+  glUniform1f(uLight2,light2);
 
   matrixStack.clear();
 
@@ -553,6 +692,8 @@ void renderGL(void)
     projection_matrix = glm::ortho(-20.0, 20.0, -20.0, 20.0, -20.0, 20.0);
 
   view_matrix = projection_matrix*lookat_matrix;
+
+  glUniformMatrix4fv(uViewMatrix, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
   matrixStack.push_back(view_matrix);
 
@@ -626,7 +767,8 @@ int main(int argc, char** argv)
   initBuffersGL();
 
   camera_points.push_back(glm::vec3(c_xpos,c_ypos,c_zpos));
-  float time = 0.1f;
+  float time1 = 0.1f;
+  float time2 = 0.04f;
 
   float previous = -1;
 
@@ -643,22 +785,46 @@ int main(int argc, char** argv)
 
         //std::cout<<camera_points.size()<<std::endl; 
 
-        time -= delta;
-        if (time <= 0.0)
+        time1 -= delta;
+        if (time1 <= 0.0)
         {
             c_xpos = camera_movement[campoint][0];
             c_ypos = camera_movement[campoint][1];
             c_zpos = camera_movement[campoint][2];
-            time = 0.1;
+            time1 = 0.1;
             campoint++;
             
 
             if(campoint == camera_movement.size())
             {
               mode = 3;
+              previous = -1;
             }
         }
   
+      }
+      if(mode == 3)
+      {
+        if(previous < 0) previous = glfwGetTime();
+        float now = glfwGetTime();
+        float delta = now - previous;
+        previous = now;
+
+
+        time2 -= delta;
+        if (time2 <= 0.0)
+        {
+            applyFrame(framenum);
+            time2 = 0.04;
+            framenum++;
+            
+
+            if(framenum == allframes.size())
+            {
+              mode = 4;
+              previous = -1;
+            }
+        }
       }
       
       // Render here

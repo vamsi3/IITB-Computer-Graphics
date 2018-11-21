@@ -25,9 +25,10 @@ int mode = 1;
 
 
 std::vector<glm::vec3> camera_points,camera_movement;
+std::vector<std::vector<double>> keyframes, allframes;
 
 int campoint = 0;
-
+int framenum = 0;
 
 //Running variable to toggle culling on/off
 bool enable_culling=true;
@@ -36,7 +37,9 @@ bool enable_culling=true;
 bool enable_perspective=true;
 
 //Shader program attribs
-GLuint vPosition,vColor,vNormal,vTexcord,vUseTexture;
+GLuint vPosition,vColor,vNormal,vTexcord,vUseTexture,uLight1,uLight2;
+
+float light1 = 1.0f, light2 = 1.0f;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;
@@ -65,3 +68,4 @@ glm::mat4 lookat_matrix;
 glm::mat4 model_matrix;
 glm::mat4 view_matrix;
 glm::mat4 modelview_matrix;
+

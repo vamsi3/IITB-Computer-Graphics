@@ -20,7 +20,7 @@ namespace cs475	 {
 
 	// A class that represents a node in the hierarchy tree
 	class HNode {
-		GLfloat tx,ty,tz,rx,ry,rz;
+		glm::mat3 normal_matrix;
 
 		bool use_texture = false;
 
@@ -33,9 +33,11 @@ namespace cs475	 {
 		std::vector<HNode*> children;
 		HNode* parent;
 
+		
+	  public:
+	  	GLfloat tx,ty,tz,rx,ry,rz;
 		void update_matrices();
 
-	  public:
 		HNode (HNode*, GLuint, GLuint, bool use_texture = false);
 		
 		void add_child(HNode*);
