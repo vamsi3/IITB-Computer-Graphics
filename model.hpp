@@ -36,7 +36,7 @@ bool enable_culling=true;
 bool enable_perspective=true;
 
 //Shader program attribs
-GLuint vPosition,vColor,vNormal,texCoord;
+GLuint vPosition,vColor,vNormal,vTexcord,vUseTexture;
 
 //global matrix stack for hierarchical modelling
 std::vector<glm::mat4> matrixStack;

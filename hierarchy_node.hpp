@@ -14,7 +14,7 @@
 
 
 #include "gl_framework.hpp"
-
+#include "defs.hpp"
 
 namespace cs475	 { 
 
@@ -22,11 +22,7 @@ namespace cs475	 {
 	class HNode {
 		GLfloat tx,ty,tz,rx,ry,rz;
 
-		std::size_t vertex_buffer_size;
-		std::size_t color_buffer_size;
-		std::size_t normal_buffer_size;
-		std::size_t tex_buffer_size;
-		std::size_t texUse_buffer_size;
+		bool use_texture = false;
 
 		GLuint num_vertices;
 		GLuint vao,vbo,tex;
@@ -40,7 +36,7 @@ namespace cs475	 {
 		void update_matrices();
 
 	  public:
-		HNode (HNode*, GLuint, glm::vec4*,  glm::vec4*, glm::vec3*, glm::vec3*, std::size_t, std::size_t, std::size_t, std::size_t, GLuint);
+		HNode (HNode*, GLuint, GLuint, bool use_texture = false);
 		
 		void add_child(HNode*);
 		void render();

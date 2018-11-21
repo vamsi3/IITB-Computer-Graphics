@@ -2,20 +2,20 @@
 
 #include <iostream>
 
-extern GLuint vPosition,vColor,vNormal,texCoord,texUse,uModelViewMatrix;
+extern GLuint vPosition,vColor,vNormal,vTexcord,vUseTexture,uModelViewMatrix;
 extern std::vector<glm::mat4> matrixStack;
 
 namespace cs475
 {
 
-	HNode::HNode(HNode* a_parent, GLuint num_v, glm::vec4* a_vertices, glm::vec4* a_colours, glm::vec3* a_normals, glm::vec3* a_texCoord, std::size_t v_size, std::size_t c_size, std::size_t n_size, std::size_t tex_size, GLuint texture){
+	HNode::HNode(HNode* a_parent, GLuint num_v, GLuint texture, bool use_texture){
 
 		num_vertices = num_v;
-		vertex_buffer_size = v_size;
-		color_buffer_size = c_size;
-		tex_buffer_size = tex_size;
-		normal_buffer_size = n_size;
 		tex = texture;
+		std::size_t data_size = sizeof(glm::vec2)*num_vertices/2;
+
+		this->use_texture = use_texture;
+
 		//initialize vao and vbo of the object;
 
 
@@ -29,24 +29,24 @@ namespace cs475
 		glBindBuffer (GL_ARRAY_BUFFER, vbo);
 
 		
-		glBufferData (GL_ARRAY_BUFFER, vertex_buffer_size + color_buffer_size + color_buffer_size + tex_buffer_size + normal_buffer_size, NULL, GL_STATIC_DRAW);
-		glBufferSubData( GL_ARRAY_BUFFER, 0, vertex_buffer_size, a_vertices );
-		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size, color_buffer_size, a_colours );
-		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size+color_buffer_size, normal_buffer_size, a_normals );
-		glBufferSubData( GL_ARRAY_BUFFER, vertex_buffer_size+color_buffer_size+normal_buffer_size, tex_buffer_size, a_texCoord );
+		glBufferData (GL_ARRAY_BUFFER, data_size*(4+4+3+2), NULL, GL_STATIC_DRAW);
+		glBufferSubData( GL_ARRAY_BUFFER, 0, data_size*4, v_positions );
+		glBufferSubData( GL_ARRAY_BUFFER, data_size*4, data_size*4, v_colors );
+		glBufferSubData( GL_ARRAY_BUFFER, data_size*(4+4), data_size*3, v_normals );
+		glBufferSubData( GL_ARRAY_BUFFER, data_size*(4+4+3), data_size*2, v_texcord );
 
 		//setup the vertex array as per the shader
 		glEnableVertexAttribArray( vPosition );
 		glVertexAttribPointer( vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
 
 		glEnableVertexAttribArray( vColor );
-		glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size));
+		glVertexAttribPointer( vColor, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(data_size*4));
 
 		glEnableVertexAttribArray( vNormal );
-		glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size));
+		glVertexAttribPointer( vNormal, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(data_size*4+data_size*4));
 
-		glEnableVertexAttribArray( texCoord );
-		glVertexAttribPointer( texCoord, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(vertex_buffer_size+color_buffer_size+normal_buffer_size));
+		glEnableVertexAttribArray( vTexcord );
+		glVertexAttribPointer( vTexcord, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(data_size*4+data_size*4+data_size*3));
 
 
 		
@@ -102,7 +102,16 @@ namespace cs475
 		glUniformMatrix4fv(uModelViewMatrix, 1, GL_FALSE, glm::value_ptr(*ms_mult));
 		glBindVertexArray (vao);
 
-		glBindTexture(GL_TEXTURE_2D, tex);
+		if(this->use_texture)
+		{
+			glBindTexture(GL_TEXTURE_2D, tex);
+			glUniform1f(vUseTexture,1.0f);	
+		}
+		else
+		{
+			glUniform1f(vUseTexture,-1.0f);	
+		}
+		
 		glDrawArrays(GL_TRIANGLES, 0, num_vertices);
 
 		// for memory 

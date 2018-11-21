@@ -1,8 +1,9 @@
 #version 130
 
 in vec4 color;
-in vec3 Normal;
-in vec3 tex;
+in vec3 normal;
+in vec2 tex;
+in float usetex;
 
 out vec4 frag_color;
 
@@ -12,17 +13,13 @@ void main ()
 {
   vec4 COLOR = vec4(0.0);
 
-  float texNeed = tex.x;
-
-  vec2 tex1 = vec2(tex.y, tex.z);
-  
-  if(texNeed < 0)
+  if(usetex < 0)
   {
    	 COLOR = color;
   }
   else
   {
-  	 COLOR = texture2D(texture, tex1);	
+  	 COLOR = texture2D(texture, tex);	
   }
   
   frag_color = COLOR;

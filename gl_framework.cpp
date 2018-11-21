@@ -1,6 +1,6 @@
 #include "gl_framework.hpp"
 #include "hierarchy_node.hpp"
-
+#include "defs.hpp"
 
 extern GLfloat c_xrot,c_yrot,c_zrot,c_zpos,c_xpos,c_ypos;
 extern bool enable_perspective;
