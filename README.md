@@ -1,4 +1,4 @@
-# The Music Box: Modelling
+# The Music Box: Animation
 
 ## Team Details
 
