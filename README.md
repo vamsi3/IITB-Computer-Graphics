@@ -26,13 +26,13 @@ All the key bindings are implemented in `gl_framework.cpp` and `gl_framework.hpp
 ### Control of Units
 "1" Toggle wall light
 "2" Toggle lamp light
-"3" Start animation
+"3" Start animation with stored keyframes
 "V" Start Bezier curve camera animation
 "B" Capture keyframe
 "X" Delete keyframes.txt
 
 "W", "A", "S", "D" camera rotation
-"I", "J", "K", "L" camera translation
+"I", "J", "K", "L", "O", "U" camera translation
 
 
 
