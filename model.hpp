@@ -22,7 +22,7 @@ int mode = 1;
 //2--animate camera
 
 
-
+int screen_width = 800, screen_height = 800;
 
 std::vector<glm::vec3> camera_points,camera_movement;
 std::vector<std::vector<double>> keyframes, allframes;

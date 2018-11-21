@@ -6,6 +6,8 @@ GLuint shaderProgram;
 
 GLuint uModelViewMatrix,uViewMatrix,uNormalMatrix;
 
+unsigned char *animation_frame;
+
 
 //-----------------------------------------------------------------
 
@@ -16,6 +18,13 @@ glm::vec2 v_texcord[num_vertices];
 
 //-----------------------------------------------------------------
 
+void drawSphere(glm::vec3 center)
+{
+  sphere->set(0.7, 0.7, 0.7, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,1,1)->load();
+  
+  cs475::HNode* tnode = new cs475::HNode(model4.nodes[0],sphere->getVertexCount());
+  tnode->change_parameters(center.x,center.y,center.z-1,0,0,0);
+}
 
 std::string itos(int k) {
   return std::to_string(k) + " ";
@@ -178,8 +187,25 @@ for(auto k: model2.nodes) {
   c_zrot = frame[j++];
 }
 
+void captureFrame(unsigned int animation_framenum)
+{
+  animation_frame = new unsigned char [3 * (screen_width+1) * (screen_height + 1) ];
 
 
+  glReadBuffer(GL_BACK);
+
+  glPixelStoref(GL_PACK_ALIGNMENT,1);
+  glReadPixels(0, 0, screen_width, screen_height, GL_RGB, GL_UNSIGNED_BYTE, animation_frame);
+  char filename[200];
+  sprintf(filename,"frames/frame_%04d.ppm",animation_framenum);
+  std::ofstream out(filename, std::ios::out);
+  out<<"P6"<<std::endl;
+  out<<screen_width<<" "<<screen_height<<" 255"<<std::endl;
+  out.write(reinterpret_cast<char const *>(animation_frame), (3 * (screen_width+1) * (screen_height + 1)) * sizeof(int));
+  out.close();
+
+  delete animation_frame;
+}
 
 
 void initBuffersGL(void)
@@ -1027,7 +1053,7 @@ int main(int argc, char** argv)
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
 
   //! Create a windowed mode window and its OpenGL context
-  window = glfwCreateWindow(800, 800, "Assignment-3 Animation", NULL, NULL);
+  window = glfwCreateWindow(screen_width, screen_height, "Assignment-3 Animation", NULL, NULL);
   if (!window)
     {
       glfwTerminate();
@@ -1100,7 +1126,7 @@ int main(int argc, char** argv)
 
             if(campoint == camera_movement.size())
             {
-              mode = 3;
+              mode = 1;
               previous = -1;
             }
         }
@@ -1121,6 +1147,8 @@ int main(int argc, char** argv)
             time2 = 0.04;
             framenum++;
             
+            // Enable if you want to store the frames as images
+            // captureFrame();
 
             if(framenum == allframes.size())
             {

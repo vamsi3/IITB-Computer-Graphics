@@ -9,13 +9,13 @@ extern glm::mat4 view_matrix, modelview_matrix;
 extern GLfloat c_zpos;
 extern std::vector<glm::vec3> camera_points;
 extern std::vector<glm::vec3> camera_movement;
-extern int mode;
+extern int mode, screen_height, screen_width;
 
 extern float light1,light2;
 
 extern void dumpFrame();
 extern void readKeyframes();
-
+extern void drawSphere(glm::vec3 center);
 
 
 int factorial(int n)
@@ -103,37 +103,18 @@ namespace cs475
     glfwGetCursorPos(window, &xpos, &ypos);
     if(button == GLFW_MOUSE_BUTTON_LEFT and action == GLFW_PRESS)
     {
-      GLint viewPort[4];
+        GLfloat x = (xpos-screen_width/2)/screen_width;
+        GLfloat y = (screen_height/2-ypos)/screen_height;
+        glm::vec4 pos = glm::vec4(x,y,c_zpos,1);
+        glm::mat4 inv_view = inverse(view_matrix);
 
-      glGetIntegerv(GL_VIEWPORT, viewPort);
+        glm::vec4 newpos = pos*inv_view;
+        newpos.z = c_zpos;
+        newpos.y = newpos.y + c_ypos;
+        newpos.x = newpos.x + c_xpos;
 
-      ypos = viewPort[1]+viewPort[3]-ypos;
-
-      glm::mat4 inv_matrix = glm::inverse(view_matrix*modelview_matrix);
-
-      double xpos1 = (xpos-(GLdouble)viewPort[0])/(GLdouble)viewPort[2]*2.0-1.0;
-      double ypos1 = (ypos-(GLdouble)viewPort[1])/(GLdouble)viewPort[3]*2.0-1.0;
-      
-      glm::vec4 pos1 = glm::vec4(xpos1,ypos1,1.0,1.0); 
-
-      glm::vec4 outpos1 = inv_matrix * pos1;
-
-      pos1.z = -1;
-
-      glm::vec4 outpos2 = inv_matrix * pos1;
-
-      for(int j=0;j<3;j++)
-      {
-        outpos1[j] /= outpos1[3];
-        outpos2[j] /= outpos2[3];
-      }
-
-      double t = (outpos1[2] - 6) / (outpos1[2] - outpos2[2]);
-      GLfloat fx = outpos1[0] + (outpos2[0] - outpos1[0]) * t;
-      GLfloat fy = outpos1[1] + (outpos2[1] - outpos1[1]) * t;
-
-      glm::vec3 newpos = glm::vec3(fx,fy,c_zpos);
-      camera_points.push_back(newpos);
+        drawSphere(glm::vec3(newpos));
+        camera_points.push_back(glm::vec3(newpos));
     }
   }
 
