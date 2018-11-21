@@ -49,7 +49,7 @@ All the key bindings are implemented in `gl_framework.cpp` and `gl_framework.hpp
 
 ### Bezier Curve Camera Animation
 
-In the beginning one can chooose the points by left clicks and translating with "I","J","K","L". After clicking the points press "V" to begin the animation of camera. This is followed by the keyframe animation automatically.
+In the beginning one can choose the points by left clicks and translating with "I","J","K","L","O","U" only (don't use "W","A","S","D"). After clicking the points press "V" to begin the animation of camera. This is followed by the keyframe animation automatically.
 
 ### Keyframe Animation
 
