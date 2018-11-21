@@ -30,11 +30,12 @@ namespace cs475	 {
 		glm::mat4 rotation;
 		glm::mat4 translation;
 		
-		std::vector<HNode*> children;
 		HNode* parent;
 
 		
 	  public:
+
+	  	std::vector<HNode*> children;
 	  	GLfloat tx,ty,tz,rx,ry,rz;
 		void update_matrices();
 

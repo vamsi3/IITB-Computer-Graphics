@@ -33,10 +33,9 @@ void main (void)
   cameraPos = uModelViewMatrix * vPosition;
   gl_Position = uModelViewMatrix * vPosition;
   normal = (uNormalMatrix * normalize(vNormal));
-  eye = - (uModelViewMatrix * gl_Position);
+  eye = - gl_Position;
   color = vColor;
   tex = vTexcord;
-  normal = vNormal;
   usetex = vUseTexture;
 
   l1 = uLight1;

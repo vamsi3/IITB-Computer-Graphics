@@ -16,7 +16,7 @@ extern float light1,light2;
 extern void dumpFrame();
 extern void readKeyframes();
 extern void drawSphere(glm::vec3 center);
-
+extern cs475::Model model4;
 
 int factorial(int n)
 {
@@ -149,6 +149,7 @@ namespace cs475
     else if (key == GLFW_KEY_V && action == GLFW_PRESS)
     {
       mode = 2;
+      
       drawBezier(camera_points,0.02);
     }
     else if (key == GLFW_KEY_M && action == GLFW_PRESS)

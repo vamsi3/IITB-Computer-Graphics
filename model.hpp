@@ -13,7 +13,7 @@
 #include "primitive.hpp"
 
 // Camera position and rotation Parameters
-GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 20.0;
+GLfloat c_xpos = 0.0, c_ypos = 0.0, c_zpos = 25.0;
 GLfloat c_up_x = 0.0, c_up_y = 1.0, c_up_z = 0.0;
 GLfloat c_xrot=0.0,c_yrot=0.0,c_zrot=0.0;
 
@@ -55,6 +55,7 @@ cs475::Model model8;
 cs475::Model model9;
 cs475::Model model10;
 cs475::Model model11;
+cs475::Model model12;
 
 cs475::Sphere* sphere = new cs475::Sphere();
 cs475::Cone* cone = new cs475::Cone();

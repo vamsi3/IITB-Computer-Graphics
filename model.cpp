@@ -22,8 +22,16 @@ void drawSphere(glm::vec3 center)
 {
   sphere->set(0.7, 0.7, 0.7, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,1,1)->load();
   
-  cs475::HNode* tnode = new cs475::HNode(model4.nodes[0],sphere->getVertexCount());
-  tnode->change_parameters(center.x,center.y,center.z-1,0,0,0);
+  cs475::HNode* tnode = new cs475::HNode(model12.nodes[0],sphere->getVertexCount());
+  if(center.z > 0)
+  {
+    tnode->change_parameters(center.x,center.y,center.z-1,0,0,0);  
+  }
+  else
+  {
+    tnode->change_parameters(center.x,center.y,center.z+1,0,0,0);
+  }
+  
 }
 
 std::string itos(int k) {
@@ -273,7 +281,7 @@ void initBuffersGL(void)
   cone->set(1.2*s, 1.0*s, 0, 2.0*s, 0, 2*M_PI, 360)->load();
   
   cs475::HNode* tnode = new cs475::HNode(NULL,cone->getVertexCount());
-  tnode->change_parameters(-m2_l/4,m2_h/2+2,0,90,0,0);
+  tnode->change_parameters(-m2_l/4,0,0,90,0,0);
   (model1.nodes).push_back(tnode);
 
 
@@ -542,7 +550,7 @@ void initBuffersGL(void)
   double m3_rot_body=20;
   cone->set(m3_0_r*s3, m3_0_r*s3, -m3_0_half_h*s3, m3_0_half_h*s3, 0, 2*M_PI, 360)->load();
   tnode = new cs475::HNode(NULL,cone->getVertexCount());
-  tnode->change_parameters(m2_l/4,m2_h/2+2,0,-(90+m3_rot_body),15.0,-30.0);
+  tnode->change_parameters(m2_l/4,0,0,-(90+m3_rot_body),15.0,-30.0);
   (model3.nodes).push_back(tnode);
 
   // head - 1
@@ -975,6 +983,26 @@ void initBuffersGL(void)
 
   model11.curr_node = model11.nodes[0];
   model11.limb = 0;
+
+
+
+
+
+
+
+  cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),wooden, true);
+  tnode->change_parameters(0,0,0,0,0,0);
+  (model12.nodes).push_back(tnode);
+
+
+
+
+
+
+
+
+
 }
 
 void renderGL(void)
@@ -1030,6 +1058,11 @@ void renderGL(void)
   model9.nodes[0]->render_tree();
   model10.nodes[0]->render_tree();
   model11.nodes[0]->render_tree();
+
+  if(mode == 1)
+  {
+    model12.nodes[0]->render_tree();
+  }
 }
 
 int main(int argc, char** argv)
@@ -1117,17 +1150,18 @@ int main(int argc, char** argv)
         time1 -= delta;
         if (time1 <= 0.0)
         {
-            c_xpos = camera_movement[campoint][0];
-            c_ypos = camera_movement[campoint][1];
-            c_zpos = camera_movement[campoint][2];
+            c_xpos = camera_movement[camera_movement.size()-1-campoint][0];
+            c_ypos = camera_movement[camera_movement.size()-1-campoint][1];
+            c_zpos = camera_movement[camera_movement.size()-1-campoint][2];
             time1 = 0.1;
             campoint++;
             
 
             if(campoint == camera_movement.size())
             {
-              mode = 1;
+              mode = 3;
               previous = -1;
+              readKeyframes();
             }
         }
   
