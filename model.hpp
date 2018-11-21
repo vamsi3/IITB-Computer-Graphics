@@ -45,19 +45,17 @@ float light1 = 1.0f, light2 = 1.0f;
 std::vector<glm::mat4> matrixStack;
 
 cs475::Model model1;
-
 cs475::Model model2;
-
 cs475::Model model3;
-
 cs475::Model model4;
-
+cs475::Model model5;
+cs475::Model model6;
 
 cs475::Sphere* sphere = new cs475::Sphere();
 cs475::Cone* cone = new cs475::Cone();
 cs475::Cuboid* cuboid = new cs475::Cuboid();
 cs475::Disc* disc = new cs475::Disc();
-//cs475::Trapezoid* trapezoid = new cs475::Trapezoid();
+cs475::Trapezoid* trapezoid = new cs475::Trapezoid();
 
 
 glm::mat4 rotation_matrix;

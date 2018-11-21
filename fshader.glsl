@@ -58,7 +58,7 @@ void main ()
 
   if(l2 > 0)
   {
-      vec4 spotlightPos = uViewMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+      vec4 spotlightPos = uViewMatrix * vec4(0.0, 24.0, 0.0, 1.0);
       vec3 spotlightDir = vec3(spotlightPos - cameraPos);
       float dotProduct = dot(n,normalize(spotlightDir));
       float intensity =  max( dotProduct, 0.0);

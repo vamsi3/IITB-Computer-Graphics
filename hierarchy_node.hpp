@@ -38,7 +38,7 @@ namespace cs475	 {
 	  	GLfloat tx,ty,tz,rx,ry,rz;
 		void update_matrices();
 
-		HNode (HNode*, GLuint, GLuint, bool use_texture = false);
+		HNode (HNode*, GLuint, GLuint texture = 0, bool use_texture = false);
 		
 		void add_child(HNode*);
 		void render();

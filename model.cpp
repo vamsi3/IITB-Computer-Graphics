@@ -69,16 +69,6 @@ std::vector<std::vector<double>> interpolate_two_frames(int t){
       frame.push_back((keyframes[t][j]*(24-i)+keyframes[t+1][j]*i)/24);
     }
     
-
-    /*for(int j = keyframes[t].size() - 6; j < keyframes[t].size(); j++) {
-
-      double t1 = ((72-(i + k*24))/72.0);
-      double t2 = (i+k*24)/72.0;
-      if(keyframes[t][j] == keyframes[t+1][j] && keyframes[t+1][j] == keyframes[t+2][j] && keyframes[t+2][j] == keyframes[t+3][j])
-        frame.push_back(keyframes[t][j]);
-      else
-      frame.push_back(keyframes[t][j]*t1*t1*t1 + keyframes[t+1][j]*3*t1*t1*t2 + keyframes[t+2][j]*3*t1*t2*t2 + keyframes[t+3][j]*t2*t2*t2);
-    }*/
     i_frames.push_back(frame);
     frame.clear();
   }
@@ -177,7 +167,7 @@ void initBuffersGL(void)
   glUniform1f(uLight1,light1);
   glUniform1f(uLight2,light2);
 
-  //--------------------------Model1-------------------------------//
+   //-------------------------- Model 1 (JOKER) -------------------------------//
 
   
 
@@ -188,227 +178,237 @@ void initBuffersGL(void)
   
   //tnode->change_parameters(0.0,0.0,0.0,180,0.0,0.0);
 
-  /*
-  double s=1.8;
+  
+  double s=0.5;
+  double s2 = 0.6;
+  double s3=0.06;
+  double s4 = 6;
+  double s5 = 0.05;
+  double s6 = 0.05;
+
+  double m2_l = 12*s2, m2_b = 12*s2, m2_h = 12*s2;
+  double m4_l = 10.4*s4, m4_b = 10.4*s4, m4_h = 8.4*s4;
+
+
 
 
   //LowerTorso
-  cone->set(1.2*s, 1.0*s, 0, 2.0*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(1.2*s, 1.0*s, 0, 2.0*s, 0, 2*M_PI, 360)->load();
   
-  cs475::HNode* tnode = new cs475::HNode(NULL,cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(-6,-8,0,90,0,0);
+  cs475::HNode* tnode = new cs475::HNode(NULL,cone->getVertexCount());
+  tnode->change_parameters(-m2_l/4,m2_h/2+2,0,90,0,0);
   (model1.nodes).push_back(tnode);
 
 
 
   //UpperTorso
-  cone->set(1.2*s, 0.5*s, 0, 0.5*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(1.2*s, 0.5*s, 0, 0.5*s, 0, 2*M_PI, 360)->load();
   
-  tnode = new cs475::HNode(model1.nodes[0],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[0],cone->getVertexCount());
   tnode->change_parameters(0,0,0,-180,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //Neck
-  sphere->set(0.5*s, 0.5*s, 0.25*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load(v_positions, v_colors);
+  sphere->set(0.5*s, 0.5*s, 0.25*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[1],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[1],sphere->getVertexCount());
   tnode->change_parameters(0,0,0.5*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //Head
-  sphere->set(0.7*s, 0.7*s, 0.7*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,1,1)->load(v_positions, v_colors);
+  sphere->set(0.7*s, 0.7*s, 0.7*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[2],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[2],sphere->getVertexCount());
   tnode->change_parameters(0,0,0.95*s,0,0,0);
   (model1.nodes).push_back(tnode);
   
 
   //RShoulder
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[0],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[0],sphere->getVertexCount());
   tnode->change_parameters(1.4*s,0,0,0,30,0);
   (model1.nodes).push_back(tnode);
 
 
   //LShoulder
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[0],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[0],sphere->getVertexCount());
   tnode->change_parameters(-1.4*s,0,0,0,-30,0);
   (model1.nodes).push_back(tnode);
 
 
   //RUpperArm
-  cone->set(0.2*s, 0.2*s, 0, 1.0*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.2*s, 0, 1.0*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[4],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[4],cone->getVertexCount());
   tnode->change_parameters(0.1*s,0,0,0,90,0);
   (model1.nodes).push_back(tnode);
 
 
   //LUpperArm
-  cone->set(0.2*s, 0.2*s, 0, 1.0*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.2*s, 0, 1.0*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[5],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[5],cone->getVertexCount());
   tnode->change_parameters(-0.1*s,0,0,0,-90,0);
   (model1.nodes).push_back(tnode);
 
 
   //RElbow
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[6],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[6],sphere->getVertexCount());
   tnode->change_parameters(0,0,1.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //LElbow
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[7],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[7],sphere->getVertexCount());
   tnode->change_parameters(0,0,1.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //RLowerArm
-  cone->set(0.2*s, 0.1*s, 0, 0.8*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.1*s, 0, 0.8*s, 0, 2*M_PI, 360)->load();
   
-  tnode = new cs475::HNode(model1.nodes[8],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[8],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //LLowerArm
-  cone->set(0.2*s, 0.1*s, 0, 0.8*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.1*s, 0, 0.8*s, 0, 2*M_PI, 360)->load();
   
-  tnode = new cs475::HNode(model1.nodes[9],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[9],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //Hip
-  cone->set(1.0*s, 1.0*s, 0, 0.5*s, 0, 2*M_PI, 360)->setColor(0.6,0.6,1,1)->load(v_positions, v_colors);
+  cone->set(1.0*s, 1.0*s, 0, 0.5*s, 0, 2*M_PI, 360)->setColor(0.6,0.6,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[0],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[0],cone->getVertexCount());
   tnode->change_parameters(0,0,2.0*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //RLegShoulder
-  sphere->set(0.3*s, 0.3*s, 0.3*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load(v_positions, v_colors);
+  sphere->set(0.3*s, 0.3*s, 0.3*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[12],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[12],sphere->getVertexCount());
   tnode->change_parameters(0.65*s,0,0.6*s,0,10,0);
   (model1.nodes).push_back(tnode);
 
 
   //LLegShoulder
-  sphere->set(0.3*s, 0.3*s, 0.3*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load(v_positions, v_colors);
+  sphere->set(0.3*s, 0.3*s, 0.3*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(0,1,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[12],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[12],sphere->getVertexCount());
   tnode->change_parameters(-0.65*s,0,0.6*s,0,-10,0);
   (model1.nodes).push_back(tnode);
 
 
   //RUpperLeg
-  cone->set(0.3*s, 0.2*s, 0, 1.2*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load(v_positions, v_colors);
+  cone->set(0.3*s, 0.2*s, 0, 1.2*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[13],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[13],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,20,0);
   (model1.nodes).push_back(tnode);
 
 
   //LUpperLeg
-  cone->set(0.3*s, 0.2*s, 0, 1.2*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load(v_positions, v_colors);
+  cone->set(0.3*s, 0.2*s, 0, 1.2*s, 0, 2*M_PI, 360)->setColor(1,0,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[14],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[14],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,-20,0);
   (model1.nodes).push_back(tnode);
 
 
   //RKnee
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[15],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[15],sphere->getVertexCount());
   tnode->change_parameters(0,0,1.2*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //LKnee
-  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load(v_positions, v_colors);
+  sphere->set(0.2*s, 0.2*s, 0.2*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,1,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[16],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[16],sphere->getVertexCount());
   tnode->change_parameters(0,0,1.2*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //RLowerLeg
-  cone->set(0.2*s, 0.15*s, 0, 1.0*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.15*s, 0, 1.0*s, 0, 2*M_PI, 360)->load();
   
-  tnode = new cs475::HNode(model1.nodes[17],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[17],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //LLowerLeg
-  cone->set(0.2*s, 0.15*s, 0, 1.0*s, 0, 2*M_PI, 360)->load(v_positions, v_colors);
+  cone->set(0.2*s, 0.15*s, 0, 1.0*s, 0, 2*M_PI, 360)->load();
   
-  tnode = new cs475::HNode(model1.nodes[18],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[18],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //nose
-  sphere->set(0.1*s, 0.15*s, 0.15*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,0,0,1)->load(v_positions, v_colors);
+  sphere->set(0.1*s, 0.15*s, 0.15*s, 0, 2*M_PI, 0, 2*M_PI, 360, true)->setColor(1,0,0,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[3],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[3],sphere->getVertexCount());
   tnode->change_parameters(0,-0.7*s,0,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //discforhip
-  disc->set(1.0*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model1.nodes[12],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(1.0*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load();
+  tnode = new cs475::HNode(model1.nodes[12],disc->getVertexCount());
   tnode->change_parameters(0,0,0.5*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
 
   //hatbase
-  cone->set(1.5*s, 1.5*s, 0, 0.1*s, 0, 2*M_PI, 360)->setColor(0,0.6,1,1)->load(v_positions, v_colors);
+  cone->set(1.5*s, 1.5*s, 0, 0.1*s, 0, 2*M_PI, 360)->setColor(0,0.6,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[3],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[3],cone->getVertexCount());
   tnode->change_parameters(0,0,0.4*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //discsforhatbase
-  disc->set(1.5*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model1.nodes[23],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(1.5*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load();
+  tnode = new cs475::HNode(model1.nodes[23],disc->getVertexCount());
   tnode->change_parameters(0,0,0,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
-  disc->set(1.5*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model1.nodes[23],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(1.5*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load();
+  tnode = new cs475::HNode(model1.nodes[23],disc->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //hat
-  cone->set(0.65*s, 0.65*s, 0, 0.75*s, 0, 2*M_PI, 360)->setColor(0,0.6,1,1)->load(v_positions, v_colors);
+  cone->set(0.65*s, 0.65*s, 0, 0.75*s, 0, 2*M_PI, 360)->setColor(0,0.6,1,1)->load();
   
-  tnode = new cs475::HNode(model1.nodes[23],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model1.nodes[23],cone->getVertexCount());
   tnode->change_parameters(0,0,0.1*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
 
   //discforhat
-  disc->set(0.65*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model1.nodes[26],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(0.65*s, 0.0, 2*M_PI, 36)->setColor(0, 1, 0, 1)->load();
+  tnode = new cs475::HNode(model1.nodes[26],disc->getVertexCount());
   tnode->change_parameters(0,0,0.75*s,0,0,0);
   (model1.nodes).push_back(tnode);
 
@@ -418,40 +418,35 @@ void initBuffersGL(void)
   model1.limb = 0;
 
 
+  //--------------------------- Model 2 (MUSIC BOX) ---------------------------------//
 
+  cuboid->set(0.0*s2, 0.0*s2, -0.0*s2, 0*s2, -0.0*s2, 0.0*s2)->setColor(1.0,1.0,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(0,0,0,0,0,0);
+  (model2.nodes).push_back(tnode);
 
-
-  //---------------------------Model2---------------------------------//
-
-  double s2 = 1;
-  cuboid->set(0.0*s2, 0.0*s2, -0.0*s2, 0*s2, -0.0*s2, 0.0*s2)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,3*s2,0,10,30,0);
+  cuboid->set(-6.0*s2, 6.0*s2, -5.0*s2, 5*s2, -0.1*s2, 0.1*s2)->setColor(1.0,1.0,0,1)->load(0);
+  tnode = new cs475::HNode(model2.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(0,0,-6*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
-
-  cuboid->set(-6.0*s2, 6.0*s2, -5.0*s2, 5*s2, -0.1*s2, 0.1*s2)->setColor(1.0,1.0,0,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model2.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(0,10*s2,-6.0*s2,0,0,0);
-  (model2.nodes).push_back(tnode);
-  
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
   tnode->change_parameters(0,0,12.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(-0.1*s2, 0.1*s2, -5.0*s2, 5*s2, -5.9*s2, 5.9*s2)->setColor(1,0,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-0.1*s2, 0.1*s2, -5.0*s2, 5*s2, -5.9*s2, 5.9*s2)->setColor(1,0,1,1)->load(0);
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
   tnode->change_parameters(-5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
   tnode->change_parameters(5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(-6*s2, 6*s2, -0.1*s2, 0.1*s2, -6.1*s2, 6.1*s2)->setColor(0,1,1,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-6*s2, 6*s2, -0.1*s2, 0.1*s2, -6.1*s2, 6.1*s2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
   tnode->change_parameters(0,-5.1*s2,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
-  cuboid->set(12*s2, 0, 0.2*s2, 0, 12.2*s2, 0)->setColor(0,1,1,1)->load(v_positions, v_colors, 1);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(12*s2, 0, 0.2*s2, 0, 12.2*s2, 0)->setColor(0,1,1,1)->load(1);
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
   tnode->change_parameters(-6*s2,5*s2,-0.1*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
@@ -461,118 +456,120 @@ void initBuffersGL(void)
 
   
 
-  //--------------------------Model3-------------------------------//
+  //-------------------------- Model 3 (R2D2) -------------------------------//
 
-  double s3=0.15;
+
 
   // main-body - 0
   int m3_0_r=10, m3_0_half_h=15;
   double m3_rot_body=20;
-  cone->set(m3_0_r*s3, m3_0_r*s3, -m3_0_half_h*s3, m3_0_half_h*s3, 0, 2*M_PI, 360)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(NULL,cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
-  tnode->change_parameters(6.0,-8.0,0.0,-(90+m3_rot_body),15.0,-30.0);
+  cone->set(m3_0_r*s3, m3_0_r*s3, -m3_0_half_h*s3, m3_0_half_h*s3, 0, 2*M_PI, 360)->load();
+  tnode = new cs475::HNode(NULL,cone->getVertexCount());
+  tnode->change_parameters(m2_l/4,m2_h/2+2,0,-(90+m3_rot_body),15.0,-30.0);
   (model3.nodes).push_back(tnode);
 
   // head - 1
-  sphere->set(m3_0_r*s3, m3_0_r*s3, m3_0_r*s3, 0, M_PI, 0, 2*M_PI, 360, true)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[0],sphere->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  sphere->set(m3_0_r*s3, m3_0_r*s3, m3_0_r*s3, 0, M_PI, 0, 2*M_PI, 360, true)->setColor(0.26,0.52,0.89,1)->load();
+  tnode = new cs475::HNode(model3.nodes[0],sphere->getVertexCount());
   tnode->change_parameters(0.0,0.0,m3_0_half_h*s3,0,0.0,0.0);
   (model3.nodes).push_back(tnode);
 
   // botton-main-rod - 2
   int m3_2_half_w=2, m3_2_h=4;
-  cuboid->set(-m3_2_half_w*s3, m3_2_half_w*s3, -m3_2_half_w*s3, m3_2_half_w*s3, m3_2_h*s3, -m3_2_h*s3)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model3.nodes[0],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-m3_2_half_w*s3, m3_2_half_w*s3, -m3_2_half_w*s3, m3_2_half_w*s3, m3_2_h*s3, -m3_2_h*s3)->setColor(0.26,0.52,0.89,1)->load(0);
+  tnode = new cs475::HNode(model3.nodes[0],cuboid->getVertexCount());
   tnode->change_parameters(0.0,0.0,-m3_0_half_h*s3,0,0.0,0.0);
   (model3.nodes).push_back(tnode);
 
   // botton-main-feet - 3
   int m3_3_half_w1=2, m3_3_half_w2=7, m3_3_h=8;
   double m3_rot=50;
-  trapezoid->set(m3_3_half_w1*s3, m3_3_half_w2*s3, m3_3_half_w1*s3, m3_3_half_w2*s3, 0, -m3_3_h*s3)->load(v_positions, v_colors, 1);
-  tnode = new cs475::HNode(model3.nodes[2],trapezoid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  trapezoid->set(m3_3_half_w1*s3, m3_3_half_w2*s3, m3_3_half_w1*s3, m3_3_half_w2*s3, 0, -m3_3_h*s3)->load(1);
+  tnode = new cs475::HNode(model3.nodes[2],trapezoid->getVertexCount());
   tnode->change_parameters(0.0,0.0,-m3_2_h*s3,0,0.0,0.0);
   (model3.nodes).push_back(tnode);
 
   // Hand Elbow - 4
   int m3_4_r=5, m3_4_half_h=3;
-  cone->set(m3_4_r*s3, m3_4_r*s3, -m3_4_half_h*s3, m3_4_half_h*s3, 0, M_PI, 360)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[0],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cone->set(m3_4_r*s3, m3_4_r*s3, -m3_4_half_h*s3, m3_4_half_h*s3, 0, M_PI, 360)->setColor(0.26,0.52,0.89,1)->load();
+  tnode = new cs475::HNode(model3.nodes[0],cone->getVertexCount());
   tnode->change_parameters(m3_0_r*s3,0,(m3_0_half_h-m3_4_r)*s3,90,90,m3_rot);
   (model3.nodes).push_back(tnode);
 
   // 5
-  tnode = new cs475::HNode(model3.nodes[0],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model3.nodes[0],cone->getVertexCount());
   tnode->change_parameters(-m3_0_r*s3,0,(m3_0_half_h-m3_4_r)*s3,90,90,m3_rot);
   (model3.nodes).push_back(tnode);
 
   // Hand Arm - 6
   int m3_5_half_h=16;
-  cuboid->set(-m3_4_r*s3, m3_4_r*s3, 0, 2*m3_5_half_h*s3, 0, m3_4_half_h*s3)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model3.nodes[4],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-m3_4_r*s3, m3_4_r*s3, 0, 2*m3_5_half_h*s3, 0, m3_4_half_h*s3)->setColor(0.26,0.52,0.89,1)->load(0);
+  tnode = new cs475::HNode(model3.nodes[4],cuboid->getVertexCount());
   tnode->change_parameters(0.0,-2*m3_5_half_h*s3,0,0,0.0,0.0);
   (model3.nodes).push_back(tnode);
 
   // 7
-  cuboid->set(-m3_4_r*s3, m3_4_r*s3, 0, 2*m3_5_half_h*s3, -m3_4_half_h*s3, 0)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors, 0);
-  tnode = new cs475::HNode(model3.nodes[5],cuboid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cuboid->set(-m3_4_r*s3, m3_4_r*s3, 0, 2*m3_5_half_h*s3, -m3_4_half_h*s3, 0)->setColor(0.26,0.52,0.89,1)->load(0);
+  tnode = new cs475::HNode(model3.nodes[5],cuboid->getVertexCount());
   tnode->change_parameters(0.0,-2*m3_5_half_h*s3,0,0,0.0,0.0);
   (model3.nodes).push_back(tnode);
 
   // Hand End - 8, 9
 
-  trapezoid->set(m3_4_r*s3, 1.7*m3_4_r*s3, (m3_4_half_h*s3)/2, (2.5*m3_4_half_h*s3)/2, 0, 5*s3)->load(v_positions, v_colors, 1);
-  tnode = new cs475::HNode(model3.nodes[6],trapezoid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  trapezoid->set(m3_4_r*s3, 1.7*m3_4_r*s3, (m3_4_half_h*s3)/2, (2.5*m3_4_half_h*s3)/2, 0, 5*s3)->load(1);
+  tnode = new cs475::HNode(model3.nodes[6],trapezoid->getVertexCount());
   tnode->change_parameters(0.0,0.0,(m3_4_half_h*s3)/2,90,0,0.0);
   (model3.nodes).push_back(tnode);
 
-  trapezoid->set(m3_4_r*s3, 1.7*m3_4_r*s3, (m3_4_half_h*s3)/2, (2.5*m3_4_half_h*s3)/2, 0, 5*s3)->load(v_positions, v_colors, 1);
-  tnode = new cs475::HNode(model3.nodes[7],trapezoid->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  trapezoid->set(m3_4_r*s3, 1.7*m3_4_r*s3, (m3_4_half_h*s3)/2, (2.5*m3_4_half_h*s3)/2, 0, 5*s3)->load(1);
+  tnode = new cs475::HNode(model3.nodes[7],trapezoid->getVertexCount());
   tnode->change_parameters(0.0,0.0,-(m3_4_half_h*s3)/2,90,0,0.0);
   (model3.nodes).push_back(tnode);
 
   // Hand Discs - 10, 11
 
-  disc->set(m3_4_r*s3,0,M_PI,360)->setColor(0.26,0.52,0.89,1)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[4],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(m3_4_r*s3,0,M_PI,360)->setColor(0.26,0.52,0.89,1)->load();
+  tnode = new cs475::HNode(model3.nodes[4],disc->getVertexCount());
   tnode->change_parameters(0.0,0.0,m3_4_half_h*s3,0,0,0.0);
   (model3.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model3.nodes[5],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  tnode = new cs475::HNode(model3.nodes[5],disc->getVertexCount());
   tnode->change_parameters(0.0,0.0,-m3_4_half_h*s3,0,0,0.0);
   (model3.nodes).push_back(tnode);
 
   // Base Disc - 12
 
-  disc->set(m3_0_r*s3,0,2*M_PI,360)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[0],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(m3_0_r*s3,0,2*M_PI,360)->load();
+  tnode = new cs475::HNode(model3.nodes[0],disc->getVertexCount());
   tnode->change_parameters(0.0,0.0,-m3_0_half_h*s3,0,0,0.0);
   (model3.nodes).push_back(tnode);
 
   // Eye - 13
 
-  cone->set(2*s3, 2*s3, -m3_4_half_h*s3, (m3_4_half_h*0.75)*s3, 0, 2*M_PI, 360)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[1],cone->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  cone->set(2*s3, 2*s3, -m3_4_half_h*s3, (m3_4_half_h*0.75)*s3, 0, 2*M_PI, 360)->load();
+  tnode = new cs475::HNode(model3.nodes[1],cone->getVertexCount());
   tnode->change_parameters(0,-10*s3,2.5*s3,80,0,0);
   (model3.nodes).push_back(tnode);
 
   // 14
-  disc->set(2*s3,0,2*M_PI,360)->load(v_positions, v_colors);
-  tnode = new cs475::HNode(model3.nodes[13],disc->getVertexCount(),v_positions,v_colors,sizeof(v_positions),sizeof(v_colors));
+  disc->set(2*s3,0,2*M_PI,360)->load();
+  tnode = new cs475::HNode(model3.nodes[13],disc->getVertexCount());
   tnode->change_parameters(0.0,0.0,m3_4_half_h*0.75*s3,0,0,0.0);
   (model3.nodes).push_back(tnode);  
 
 
   model3.curr_node = model3.nodes[0];
   model3.limb = 0;
-  */
+  
+
+  //-------------------------- Model 4 (MAIN ROOM) -------------------------------//
 
   GLuint wooden = LoadTexture("images/wooden.bmp",512,512);
   GLuint floor = LoadTexture("images/all1.bmp",256,256);
   
-  double s4 = 1;
+
   cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(0);
-  cs475::HNode* tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),wooden, true);
   tnode->change_parameters(0,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
   
@@ -617,7 +614,7 @@ void initBuffersGL(void)
   tnode->change_parameters(-3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(1);
+  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(0);
   tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),wooden);
   tnode->change_parameters(-1.6*s4,-2.4*s4,0.1*s4,0,180,0);
   (model4.nodes).push_back(tnode);
@@ -650,8 +647,72 @@ void initBuffersGL(void)
   tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  model4.curr_node = model4.nodes[8];
+  model4.curr_node = model4.nodes[1];
   model4.limb = 0;
+
+  //-------------------------- Model 5 (TABLE) -------------------------------//
+
+  double m5_0_l = 18, m5_0_b = 15, m5_0_h = 4; // table top
+  double m5_1_l = 1, m5_1_b = 1, m5_1_h = m4_h/2-m5_0_h-m2_h/2; // table legs
+
+  // table top = 0
+  cuboid->set(-m5_0_l/2, m5_0_l/2, -m5_0_h/2, m5_0_h/2, -m5_0_b/2, m5_0_b/2)->setColor(1,0,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(0,-m4_h/2+m5_0_h/2+m5_1_h,0,0,0,0);
+  (model5.nodes).push_back(tnode);
+
+  // table legs = 1,2,3,4
+  cuboid->set(-m5_1_l/2, m5_1_l/2, -m5_1_h/2, m5_1_h/2, -m5_1_b/2, m5_1_b/2)->setColor(0,1,0,1)->load(0);
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,(m5_0_b-m5_1_b)/2,0,0,0);
+  (model5.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,-(m5_0_b-m5_1_b)/2,0,0,0);
+  (model5.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,-(m5_0_b-m5_1_b)/2,0,0,0);
+  (model5.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,(m5_0_b-m5_1_b)/2,0,0,0);
+  (model5.nodes).push_back(tnode);
+
+  model5.curr_node = model5.nodes[0];
+  model5.limb = 0;
+
+  //-------------------------- Model 6 (CHAIR) -------------------------------//
+
+  double m6_0_l = 8, m6_0_b = 8, m6_0_h = 1, m6_0_toff_x = 15, m6_0_toff_z = 0; // chair top
+  double m6_1_l = 0.8, m6_1_b = 0.8, m6_1_h = 8; // chair legs
+
+  // chair top = 0
+  cuboid->set(-m6_0_l/2, m6_0_l/2, -m6_0_h/2, m6_0_h/2, -m6_0_b/2, m6_0_b/2)->setColor(1,1,0,1)->load(0);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode->change_parameters(m6_0_toff_x,-m4_h/2+m6_0_h/2+m6_1_h,m6_0_toff_z,0,0,0);
+  (model6.nodes).push_back(tnode);
+
+  // chair legs = 1,2,3,4
+  cuboid->set(-m6_1_l/2, m6_1_l/2, -m6_1_h/2, m6_1_h/2, -m6_1_b/2, m6_1_b/2)->setColor(0,1,1,1)->load(0);
+  tnode = new cs475::HNode(model6.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m6_0_l-m6_1_l)/2,-(m6_0_h+m6_1_h)/2,(m6_0_b-m6_1_b)/2,0,0,0);
+  (model6.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model6.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters((m6_0_l-m6_1_l)/2,-(m6_0_h+m6_1_h)/2,-(m6_0_b-m6_1_b)/2,0,0,0);
+  (model6.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model6.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m6_0_l-m6_1_l)/2,-(m6_0_h+m6_1_h)/2,-(m6_0_b-m6_1_b)/2,0,0,0);
+  (model6.nodes).push_back(tnode);
+
+  tnode = new cs475::HNode(model6.nodes[0],cuboid->getVertexCount());
+  tnode->change_parameters(-(m6_0_l-m6_1_l)/2,-(m6_0_h+m6_1_h)/2,(m6_0_b-m6_1_b)/2,0,0,0);
+  (model6.nodes).push_back(tnode);
+
+  model6.curr_node = model6.nodes[0];
+  model6.limb = 0;
 
 }
 
@@ -697,10 +758,12 @@ void renderGL(void)
 
   matrixStack.push_back(view_matrix);
 
-  //model1.nodes[0]->render_tree();
-  //model2.nodes[0]->render_tree();
-  //model3.nodes[0]->render_tree();
+  model1.nodes[0]->render_tree();
+  model2.nodes[0]->render_tree();
+  model3.nodes[0]->render_tree();
   model4.nodes[0]->render_tree();
+  model5.nodes[0]->render_tree();
+  model6.nodes[0]->render_tree();
 }
 
 int main(int argc, char** argv)
