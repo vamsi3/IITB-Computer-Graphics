@@ -245,6 +245,24 @@ namespace cs475
         }
         model3.curr_node = model3.nodes[model3.limb];
       }
+
+      if(model == 4)
+      {
+        std::cout<<"\n\n";
+
+        std::cout<<"Door :  0\n";
+        std::cout<<"Window:  1\n";
+        
+        std::cout<<"Enter the Corresponding Number to Select: ";
+        int d=0; std::cin>>d;
+        switch(d)
+        {
+          case 0: model4.curr_node = model4.nodes[8]; break;
+          case 1: model4.curr_node = model4.nodes[13]; break;
+          default: break;
+        }
+        
+      }
       
     }
     else if (key == GLFW_KEY_F && action == GLFW_PRESS)

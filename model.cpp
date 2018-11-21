@@ -738,7 +738,7 @@ void initBuffersGL(void)
   tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  model4.curr_node = model4.nodes[1];
+  model4.curr_node = model4.nodes[8];
   model4.limb = 0;
 
   //-------------------------- Model 5 (TABLE) -------------------------------//
@@ -1133,7 +1133,7 @@ int main(int argc, char** argv)
   cs475::initGL();
   initBuffersGL();
 
-  camera_points.push_back(glm::vec3(c_xpos,c_ypos,c_zpos));
+  camera_points.push_back(glm::vec3(c_xpos,6.0,20.0));
   float time1 = 0.1f;
   float time2 = 0.04f;
 
