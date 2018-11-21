@@ -9,9 +9,14 @@
 
 We pledge that this code in the repository is our own work and that we have not copied it from anywhere.
 
-# Video
+## Video
 
 This project's final video can be found at https://youtu.be/pgxX7Zjkb3k
+
+## Running the code
+
+- Run the command `make && ./model` to start the window.
+- Also, create a folder named `frames` if you would like to store the `.ppm`files (*i.e.* the frames of scenes sequentially) - [to do this you'll also need to uncomment line 1190 in `model.cpp`].
 
 ## Description
 
