@@ -24,12 +24,34 @@ All the key bindings are implemented in `gl_framework.cpp` and `gl_framework.hpp
 
 
 ### Control of Units
+"1" Toggle wall light
+"2" Toggle lamp light
+"3" Start animation
+"V" Start Bezier curve camera animation
+"B" Capture keyframe
+"X" Delete keyframes.txt
 
-- The default model selected initially is the humanoid clown.
+"W", "A", "S", "D" camera rotation
+"I", "J", "K", "L" camera translation
+
+
+
+### Bezier Curve Camera Animation
+
+In the beginning one can chooose the points by left clicks and translating with "I","J","K","L". After clicking the points press "V" to begin the animation of camera. This is followed by the keyframe animation automatically.
+
+### Keyframe Animation
+
+Press "3" for animating with already stored keyframes. Or after pressing "V" as stated in Bezier curve animation.
+
+
+### Model Controls
+
+- The default model selected initially is the room.
 
 
 “M”	choose the model by typing the input in terminal.	
-​	Model 1 is the humanoid clown, Model 2 is the box, Model 3 is R2D2
+​	Model 1 is the humanoid clown, Model 2 is the box, Model 3 is R2D2, Model4 is the Room
 
 “C”	choose the limb to rotate by typing in the terminal
 
@@ -147,6 +169,5 @@ Key for body parts:
 | 0  | 12 |
 | 1  | 13 |
 | 13  | 14 |
-
 
 
