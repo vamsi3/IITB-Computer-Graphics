@@ -9,6 +9,10 @@
 
 We pledge that this code in the repository is our own work and that we have not copied it from anywhere.
 
+# Video
+
+This project's final video can be found at https://youtu.be/pgxX7Zjkb3k
+
 ## Description
 
 All Primitives like ellipsoids (sphere is a special case of cones), cones (cylinder is a special case of cones), cuboids, discs and quads are implemented in `primitive.cpp` and `primitive.hpp`
@@ -21,20 +25,22 @@ The main code is implemented in `model.cpp` and `model.hpp`
 
 All the key bindings are implemented in `gl_framework.cpp` and `gl_framework.hpp`
 
-
-
 ### Control of Units
 "1" Toggle wall light
+
 "2" Toggle lamp light
+
 "3" Start animation with stored keyframes
+
 "V" Start Bezier curve camera animation
+
 "B" Capture keyframe
+
 "X" Delete keyframes.txt
 
 "W", "A", "S", "D" camera rotation
+
 "I", "J", "K", "L", "O", "U" camera translation
-
-
 
 ### Bezier Curve Camera Animation
 
