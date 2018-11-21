@@ -274,7 +274,16 @@ void initBuffersGL(void)
   double m2_l = 12.4*s2, m2_b = 12*s2, m2_h = 10.4*s2;
   double m4_l = 10*s4, m4_b = 10*s4, m4_h = 8*s4;
 
-
+  GLuint wooden = LoadTexture("images/wooden.bmp",512,512);
+  GLuint floor = LoadTexture("images/all1.bmp",256,256);
+  GLuint bricks = LoadTexture("images/bricks.bmp",638,425);
+  GLuint carpet = LoadTexture("images/carpet.bmp",499,337);
+  GLuint marble = LoadTexture("images/marble.bmp",400,400);
+  GLuint metal = LoadTexture("images/metal.bmp",300,375);
+  GLuint roof = LoadTexture("images/roof.bmp",600,400);
+  GLuint stones = LoadTexture("images/stones.bmp",638,494);
+  GLuint suit2 = LoadTexture("images/suit2.bmp",358,358);
+  GLuint wood = LoadTexture("images/wood.bmp",512,512);  
 
 
   //LowerTorso
@@ -506,32 +515,32 @@ void initBuffersGL(void)
   //--------------------------- Model 2 (MUSIC BOX) ---------------------------------//
 
   cuboid->set(0.0*s2, 0.0*s2, -0.0*s2, 0*s2, -0.0*s2, 0.0*s2)->setColor(1.0,1.0,0,1)->load(0);
-  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(0,0,0,0,0,0);
   (model2.nodes).push_back(tnode);
 
   cuboid->set(-6.0*s2, 6.0*s2, -5.0*s2, 5*s2, -0.1*s2, 0.1*s2)->setColor(1.0,1.0,0,1)->load(0);
-  tnode = new cs475::HNode(model2.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[0],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(0,0,-6*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(0,0,12.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   cuboid->set(-0.1*s2, 0.1*s2, -5.0*s2, 5*s2, -5.9*s2, 5.9*s2)->setColor(1,0,1,1)->load(0);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(-5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(5.9*s2,0,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   cuboid->set(-6*s2, 6*s2, -0.1*s2, 0.1*s2, -6.1*s2, 6.1*s2)->setColor(0,1,1,1)->load(0);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(0,-5.1*s2,6.0*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   cuboid->set(12*s2, 0, 0.2*s2, 0, 12.2*s2, 0)->setColor(0,1,1,1)->load(1);
-  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model2.nodes[1],cuboid->getVertexCount(), wooden, true);
   tnode->change_parameters(-6*s2,5*s2,-0.1*s2,0,0,0);
   (model2.nodes).push_back(tnode);
   
@@ -648,87 +657,84 @@ void initBuffersGL(void)
   
 
   //-------------------------- Model 4 (MAIN ROOM) -------------------------------//
-
-  GLuint wooden = LoadTexture("images/wooden.bmp",512,512);
-  GLuint floor = LoadTexture("images/all1.bmp",256,256);
   
 
   cuboid->set(0.0*s4, 0.0*s4, -0.0*s4, 0*s4, -0.0*s4, 0.0*s4)->setColor(1.0,1.0,0,1)->load(0);
-  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(0,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
   
 
   cuboid->set(-5.2*s4, 5.2*s4, -4.2*s4, 4.2*s4, -0.1*s4, 0.1*s4)->setColor(1.0,1.0,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(0,0,-5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
   cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),floor, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),carpet, true);
   tnode->change_parameters(0,-4.1*s4,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-5.2*s4, 5.2*s4, -0.1*s4, 0.1*s4, -5.0*s4, 5.0*s4)->setColor(1.0,0.0,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),roof, true);
   tnode->change_parameters(0,4.1*s4,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(-5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-5.2*s4, 5.2*s4, -1.6*s4, 1.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(0,2.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-1.6*s4, 1.6*s4, -2.6*s4, 2.6*s4, -0.1*s4, 0.1*s4)->setColor(0.5,0.5,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(-3.6*s4,-1.6*s4,5.1*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
-  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),wooden);
+  cuboid->set(4*s4, 0, 5.0*s4, 0, 0.2*s4, 0)->setColor(0.0,1,0,1)->load(1);
+  tnode = new cs475::HNode(model4.nodes[6],cuboid->getVertexCount(),metal, true);
   tnode->change_parameters(-1.6*s4,-2.4*s4,0.1*s4,0,180,0);
   (model4.nodes).push_back(tnode);
 
   cuboid->set(-0.1*s4, 0.1*s4,1.0*s4, 4.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-0.1*s4, 0.1*s4,-4.0*s4, -1.0*s4,-5.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
   cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,-5.0*s4, -1.0*s4)->setColor(0.0,0.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
   
   cuboid->set(-0.1*s4, 0.1*s4,-1.0*s4, 1.0*s4,1.0*s4, 5.0*s4)->setColor(0.0,0.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wooden, true);
+  tnode = new cs475::HNode(model4.nodes[0],cuboid->getVertexCount(),wood, true);
   tnode->change_parameters(5.1*s4,0,0,0,0,0);
   (model4.nodes).push_back(tnode);
 
 
-  cuboid->set(0.2*s4, 0,2.0*s4,0,2.0*s4, 0)->setColor(1.0,1.0,1,1)->load(0);
-  tnode = new cs475::HNode(model4.nodes[12],cuboid->getVertexCount(),wooden);
+  cuboid->set(0.2*s4, 0,2.0*s4,0,2.0*s4, 0)->setColor(1.0,1.0,1,1)->load(1);
+  tnode = new cs475::HNode(model4.nodes[12],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-0.1*s4,-1.0*s4,-1.0*s4,0,0,0);
   (model4.nodes).push_back(tnode);
 
@@ -742,25 +748,25 @@ void initBuffersGL(void)
 
   // table top = 0
   cuboid->set(-m5_0_l/2, m5_0_l/2, -m5_0_h/2, m5_0_h/2, -m5_0_b/2, m5_0_b/2)->setColor(1,0,0,1)->load(0);
-  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(), marble, true);
   tnode->change_parameters(0,-m4_h/2+m5_0_h/2+m5_1_h,0,0,0,0);
   (model5.nodes).push_back(tnode);
 
   // table legs = 1,2,3,4
   cuboid->set(-m5_1_l/2, m5_1_l/2, -m5_1_h/2, m5_1_h/2, -m5_1_b/2, m5_1_b/2)->setColor(0,1,0,1)->load(0);
-  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount(), wood, true);
   tnode->change_parameters((m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,(m5_0_b-m5_1_b)/2,0,0,0);
   (model5.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount(), wood, true);
   tnode->change_parameters((m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,-(m5_0_b-m5_1_b)/2,0,0,0);
   (model5.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount(), wood, true);
   tnode->change_parameters(-(m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,-(m5_0_b-m5_1_b)/2,0,0,0);
   (model5.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model5.nodes[0],cuboid->getVertexCount(), wood, true);
   tnode->change_parameters(-(m5_0_l-m5_1_l)/2,-(m5_0_h+m5_1_h)/2,(m5_0_b-m5_1_b)/2,0,0,0);
   (model5.nodes).push_back(tnode);
 
@@ -773,7 +779,7 @@ void initBuffersGL(void)
   double m6_1_l = 0.8*s6, m6_1_b = 0.8*s6, m6_1_h = 8*s6; // chair legs
 
   // chair top = 0
-  cuboid->set(-m6_0_l/2, m6_0_l/2, -m6_0_h/2, m6_0_h/2, -m6_0_b/2, m6_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m6_0_l/2, m6_0_l/2, -m6_0_h/2, m6_0_h/2, -m6_0_b/2, m6_0_b/2)->setColor(1,1,1,1)->load(0);
   tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
   tnode->change_parameters(m6_0_toff_x,-m4_h/2+m6_0_h/2+m6_1_h,m6_0_toff_z,0,0,0);
   (model6.nodes).push_back(tnode);
@@ -808,7 +814,7 @@ void initBuffersGL(void)
 
   // lamp leg = 0
   cuboid->set(-m7_0_l/2, m7_0_l/2, -m7_0_h/2, m7_0_h/2, -m7_0_b/2, m7_0_b/2)->setColor(1,0,1,1)->load(0);
-  tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
+  tnode = new cs475::HNode(NULL,cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-m4_l/2+m7_2_l,-m4_h/2+m7_1_h+m7_0_h/2,-m4_b/2+m7_2_b,0,0,0);
   (model7.nodes).push_back(tnode);
 
@@ -819,7 +825,7 @@ void initBuffersGL(void)
   (model7.nodes).push_back(tnode);
 
   // lamp cover = 2
-  trapezoid->set(m7_0_l/2, m7_2_l/2, m7_0_b/2, m7_2_b/2, -m7_2_h/2, m7_2_h/2)->setColor(1,1,0,1)->load(1);
+  trapezoid->set(m7_0_l/2, m7_2_l/2, m7_0_b/2, m7_2_b/2, -m7_2_h/2, m7_2_h/2)->setColor(1,1,1,1)->load(1);
   tnode = new cs475::HNode(model7.nodes[0],trapezoid->getVertexCount());
   tnode->change_parameters(0,(m7_0_h+m7_2_h)/2,0,90,0,0);
   (model7.nodes).push_back(tnode);
@@ -830,7 +836,7 @@ void initBuffersGL(void)
   double m8_1_l = 0.8*s8, m8_1_b = 0.8*s8, m8_1_h = 8*s8; // chair legs
 
   // chair top = 0
-  cuboid->set(-m8_0_l/2, m8_0_l/2, -m8_0_h/2, m8_0_h/2, -m8_0_b/2, m8_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m8_0_l/2, m8_0_l/2, -m8_0_h/2, m8_0_h/2, -m8_0_b/2, m8_0_b/2)->setColor(1,1,1,1)->load(0);
   tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
   tnode->change_parameters(-m8_0_toff_x,-m4_h/2+m8_0_h/2+m8_1_h,m8_0_toff_z,0,0,0);
   (model8.nodes).push_back(tnode);
@@ -862,74 +868,74 @@ void initBuffersGL(void)
   double m9_1_l = 0.8*s9, m9_1_b = 0.8*s9, m9_1_h = 8*s9; // rack legs
 
   // rack top = 0
-  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(0,0,1,1)->load(0);
   tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
   tnode->change_parameters(m9_0_toff_x,-m4_h/2+m9_0_h/2+m9_1_h,m9_0_toff_z,0,0,0);
   (model9.nodes).push_back(tnode);
 
   // rack legs = 1,2,3,4
   cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
-  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
   // rack_2 top = 5
-  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(0,1,0,1)->load(0);
   tnode = new cs475::HNode(model9.nodes[0],cuboid->getVertexCount());
   tnode->change_parameters(0,m9_0_h+m9_1_h,0,0,0,0);
   (model9.nodes).push_back(tnode);
 
   // rack_2 legs = 6,7,8,9
   cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
-  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
   // rack_3 top = 10
-  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m9_0_l/2, m9_0_l/2, -m9_0_h/2, m9_0_h/2, -m9_0_b/2, m9_0_b/2)->setColor(1,0,0,1)->load(0);
   tnode = new cs475::HNode(model9.nodes[5],cuboid->getVertexCount());
   tnode->change_parameters(0,m9_0_h+m9_1_h,0,0,0,0);
   (model9.nodes).push_back(tnode);
 
   // rack_3 legs = 11,12,13,14
   cuboid->set(-m9_1_l/2, m9_1_l/2, -m9_1_h/2, m9_1_h/2, -m9_1_b/2, m9_1_b/2)->setColor(0,1,1,1)->load(0);
-  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,-(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model9.nodes[10],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m9_0_l-m9_1_l)/2,-(m9_0_h+m9_1_h)/2,(m9_0_b-m9_1_b)/2,0,0,0);
   (model9.nodes).push_back(tnode);
 
@@ -952,38 +958,37 @@ void initBuffersGL(void)
   double m11_2_h = 9*s11;
 
   // chair top = 0
-  cuboid->set(-m11_0_l/2, m11_0_l/2, -m11_0_h/2, m11_0_h/2, -m11_0_b/2, m11_0_b/2)->setColor(1,1,0,1)->load(0);
+  cuboid->set(-m11_0_l/2, m11_0_l/2, -m11_0_h/2, m11_0_h/2, -m11_0_b/2, m11_0_b/2)->setColor(1,0.2,0.3,1)->load(0);
   tnode = new cs475::HNode(NULL,cuboid->getVertexCount());
   tnode->change_parameters(m11_0_toff_x,-m4_h/2+m11_0_h/2+m11_1_h,m11_0_toff_z,0,0,0);
   (model11.nodes).push_back(tnode);
 
   // chair legs = 1,2,3,4
   cuboid->set(-m11_1_l/2, m11_1_l/2, -m11_1_h/2, m11_1_h/2, -m11_1_b/2, m11_1_b/2)->setColor(0,1,1,1)->load(0);
-  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,(m11_0_b-m11_1_b)/2,0,0,0);
   (model11.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters((m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,-(m11_0_b-m11_1_b)/2,0,0,0);
   (model11.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,-(m11_0_b-m11_1_b)/2,0,0,0);
   (model11.nodes).push_back(tnode);
 
-  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
+  tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount(), metal, true);
   tnode->change_parameters(-(m11_0_l-m11_1_l)/2,-(m11_0_h+m11_1_h)/2,(m11_0_b-m11_1_b)/2,0,0,0);
   (model11.nodes).push_back(tnode);
 
   // chair backrest
-  cuboid->set(-m11_1_l/2, m11_1_l/2, -m11_2_h/2, m11_2_h/2, -m11_0_b/2, m11_0_b/2)->setColor(0.5,0.7,1,1)->load(0);
+  cuboid->set(-m11_1_l/2, m11_1_l/2, -m11_2_h/2, m11_2_h/2, -m11_0_b/2, m11_0_b/2)->setColor(0.3,0.3,0.8,1)->load(0);
   tnode = new cs475::HNode(model11.nodes[0],cuboid->getVertexCount());
   tnode->change_parameters(-(m11_0_l-m11_1_l)/2,(m11_0_h+m11_2_h)/2,0,0,0,0);
   (model11.nodes).push_back(tnode);
 
   model11.curr_node = model11.nodes[0];
   model11.limb = 0;
-
 
 
 

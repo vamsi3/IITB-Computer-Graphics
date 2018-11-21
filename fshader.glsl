@@ -31,29 +31,29 @@ void main ()
   {
      texImage = texture2D(texture, tex);
   }
-
+  COLOR = 1.5*ambient*texImage;
   if(l1 > 0)
   {
-      // Defining Light 
-      vec4 lightPos = vec4(1.0, 8.0, 0.0, 0.0);
-      vec3 lightDir = vec3(uViewMatrix * lightPos);  // Transforms with camera
-      lightDir = normalize( vec3(lightDir));  
+       // // Defining Light 
 
-      //Diffuse    
-      float dotProduct = dot(n, lightDir);
+      vec4 spotlightPos = uViewMatrix * vec4(-30.0, 24.0, 0.0, 1.0);
+      vec3 spotlightDir = vec3(spotlightPos - cameraPos);
+      float dotProduct = dot(n,normalize(spotlightDir));
       float intensity =  max( dotProduct, 0.0);
 
-      // Compute specular component only if light falls on vertex
-      if(intensity > 0.0)
-      {
-      vec3 e = normalize(vec3(eye));
-      vec3 h = normalize(lightDir + e );
-        float intSpec = max(dot(h,n), 0.0); 
-            spec = specular * pow(intSpec, shininess);
-      }  
+      vec3 spotDirection = vec3((uViewMatrix * vec4(1.0, 0.0, 0, 1.0)) - spotlightPos);
 
-      COLOR = max(intensity * diffuse  + spec, ambient)*texImage; // All
-      
+      if(intensity > 0.2) {
+          vec3 e = normalize(vec3(eye));
+          vec3 h = normalize(spotlightDir + e );
+          float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
+          if(spotEffect > 0.9) {
+              COLOR += spotEffect * (diffuse * intensity + ambient) * texImage;
+              float intSpec = max(dot(h,n), 0.0);
+              spec = specular * pow(intSpec, shininess);
+              COLOR += spotEffect * spec * texImage;
+          }
+      }
   }
 
   if(l2 > 0)
@@ -63,13 +63,13 @@ void main ()
       float dotProduct = dot(n,normalize(spotlightDir));
       float intensity =  max( dotProduct, 0.0);
 
-      vec3 spotDirection = vec3((uViewMatrix * vec4(0.0, -5.0, 0, 1.0)) - spotlightPos);
+      vec3 spotDirection = vec3((uViewMatrix * vec4(-23.0, 20.8, -23.0, 1.0)) - spotlightPos);
 
       if(intensity > 0.2) {
           vec3 e = normalize(vec3(eye));
           vec3 h = normalize(spotlightDir + e );
           float spotEffect = dot(normalize(spotDirection), normalize(-spotlightDir));
-          if(spotEffect > 0.9) {
+          if(spotEffect > 0.92) {
               COLOR += spotEffect * (diffuse * intensity + ambient) * texImage;
               float intSpec = max(dot(h,n), 0.0);
               spec = specular * pow(intSpec, shininess);
